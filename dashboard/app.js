@@ -1026,8 +1026,22 @@ function computeYearPaceProjection(records, targetYear = TRAJECTORY_YEAR) {
   }
 
   const startOfYearUtc = Date.UTC(targetYear, 0, 1);
-  const latestUtc = Date.UTC(targetYear, latestDate.getUTCMonth(), latestDate.getUTCDate());
-  const elapsedDays = Math.max(1, Math.floor((latestUtc - startOfYearUtc) / 86400000) + 1);
+  const todayParts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Asia/Jerusalem",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit"
+  }).formatToParts(new Date());
+  const currentYear = Number(todayParts.find((part) => part.type === "year")?.value);
+  const currentMonth = Number(todayParts.find((part) => part.type === "month")?.value);
+  const currentDay = Number(todayParts.find((part) => part.type === "day")?.value);
+
+  const effectiveUtc =
+    currentYear === targetYear && currentMonth >= 1 && currentDay >= 1
+      ? Date.UTC(targetYear, currentMonth - 1, currentDay)
+      : Date.UTC(targetYear, latestDate.getUTCMonth(), latestDate.getUTCDate());
+
+  const elapsedDays = Math.max(1, Math.floor((effectiveUtc - startOfYearUtc) / 86400000) + 1);
   const daysInYear = Math.floor((Date.UTC(targetYear + 1, 0, 1) - startOfYearUtc) / 86400000);
 
   const actualCount = yearRecords.length;
@@ -1194,38 +1208,31 @@ function renderYearTrend(records) {
     grouped.set(record.year, (grouped.get(record.year) || 0) + 1);
   });
 
-  const points = [...grouped.entries()].sort((a, b) => a[0] - b[0]);
   const projection = computeYearPaceProjection(records, TRAJECTORY_YEAR);
+  if (projection) {
+    grouped.set(projection.year, projection.projectedCount);
+  }
+
+  const points = [...grouped.entries()].sort((a, b) => a[0] - b[0]);
   const traces = [
     {
       x: points.map((entry) => entry[0]),
       y: points.map((entry) => entry[1]),
       type: "scatter",
-      mode: "markers",
+      mode: "lines+markers",
+      line: { color: "#0e7c7b", width: 3 },
       marker: { color: "#e26d5a", size: 8 },
       showlegend: false
     }
   ];
-
-  if (projection) {
-    traces.push({
-      x: [projection.year, projection.year],
-      y: [projection.actualCount, projection.projectedCount],
-      type: "scatter",
-      mode: "lines+markers",
-      line: { color: "#8f5b34", width: 3, dash: "dash" },
-      marker: { color: "#8f5b34", size: 7, symbol: "diamond" },
-      showlegend: false
-    });
-  }
 
   Plotly.react(
     "chart-year-trend",
     traces,
     {
       ...createPlotTheme(),
-      xaxis: { title: t("axis.year"), fixedrange: true, ...(isRtlLanguage() ? { autorange: "reversed" } : {}) },
-      yaxis: { title: t("axis.victims"), fixedrange: true },
+      xaxis: { title: t("axis.year"), fixedrange: true, automargin: true, ...(isRtlLanguage() ? { autorange: "reversed" } : {}) },
+      yaxis: { fixedrange: true, automargin: true, side: isRtlLanguage() ? "right" : "left" },
       showlegend: false
     },
     { displayModeBar: false, responsive: true }
@@ -1251,8 +1258,8 @@ function renderGenderTrend(records) {
     {
       ...createPlotTheme(),
       barmode: "stack",
-      xaxis: { title: t("axis.year"), fixedrange: true, ...(isRtlLanguage() ? { autorange: "reversed" } : {}) },
-      yaxis: { title: t("axis.victims"), fixedrange: true }
+      xaxis: { title: t("axis.year"), fixedrange: true, automargin: true, ...(isRtlLanguage() ? { autorange: "reversed" } : {}) },
+      yaxis: { fixedrange: true, automargin: true, side: isRtlLanguage() ? "right" : "left" }
     },
     { displayModeBar: false, responsive: true }
   );
@@ -1365,9 +1372,10 @@ function renderMonthlyChart(records) {
         tickvals: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
         ticktext: getMonthLabels(),
         fixedrange: true,
+        automargin: true,
         ...(isRtlLanguage() ? { autorange: "reversed" } : {})
       },
-      yaxis: { title: t("axis.victims"), fixedrange: true }
+      yaxis: { fixedrange: true, automargin: true, side: isRtlLanguage() ? "right" : "left" }
     },
     { displayModeBar: false, responsive: true }
   );
@@ -1460,9 +1468,7 @@ function render() {
   renderYearTrend(records);
   renderGenderTrend(records);
   renderWeaponChart(records);
-  renderDistrictChart(records);
   renderGeoMap(records);
-  renderLocalityChart(records);
   renderMonthlyChart(records);
   renderTable(records);
   renderRawYearTabs();
