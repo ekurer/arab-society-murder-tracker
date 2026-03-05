@@ -187,7 +187,7 @@ const I18N = {
       dashboard: "דשבורד",
       compareYears: "השוואת שנים",
       analyses: "אנליזות",
-      rawData: "נתונים גולמיים"
+      rawData: "שמות הנרצחים"
     },
     brand: { logoAlt: "לוגו יוזמות אברהם" },
     hero: {
@@ -197,7 +197,10 @@ const I18N = {
     },
     filters: {
       year: "שנה",
-      allOption: "הכול"
+      allOption: "הכול",
+      selectAria: "בחירת שנה",
+      previousYear: "שנה קודמת",
+      nextYear: "שנה הבאה"
     },
     dashboard: {
       mapEyebrow: "Geographic dispersion",
@@ -288,7 +291,6 @@ const I18N = {
       eyebrow: "Seasonal analysis",
       title: "אנליזות רמדאן",
       subtitle: "השוואה בין ספירה נומינלית, משקל מסך מקרי הרצח באותה שנה, וקצב רצח יומי ברמדאן מול שאר ימי השנה.",
-      calendarNote: "תאריכי רמדאן מבוססים על לוח אזרחי מקובל ועלולים לסטות ביום אחד.",
       tableTitle: "טבלת השוואה שנתית",
       tableNote: "`pp` = נקודות אחוז. בשנה חלקית ההשוואה נעשית מול יתר הימים שנצפו עד כה באותה שנה.",
       noData: "אין מספיק נתונים זמינים לניתוח.",
@@ -393,7 +395,7 @@ const I18N = {
       dashboard: "لوحة القيادة",
       compareYears: "مقارنة السنوات",
       analyses: "تحليلات",
-      rawData: "بيانات خام"
+      rawData: "أسماء الضحايا"
     },
     brand: { logoAlt: "شعار مبادرات إبراهيم" },
     hero: {
@@ -403,7 +405,10 @@ const I18N = {
     },
     filters: {
       year: "السنة",
-      allOption: "الكل"
+      allOption: "الكل",
+      selectAria: "اختيار السنة",
+      previousYear: "السنة السابقة",
+      nextYear: "السنة التالية"
     },
     dashboard: {
       mapEyebrow: "Geographic dispersion",
@@ -493,7 +498,6 @@ const I18N = {
       eyebrow: "Seasonal analysis",
       title: "تحليلات رمضان",
       subtitle: "مقارنة بين العدد الاسمي، والحصة من مجموع جرائم القتل في السنة نفسها، والمعدل اليومي في رمضان مقابل بقية السنة.",
-      calendarNote: "تواريخ رمضان مبنية على تقويم مدني شائع وقد تختلف بيوم واحد.",
       tableTitle: "جدول مقارنة سنوي",
       tableNote: "`pp` = نقاط مئوية. في السنة الجزئية تتم المقارنة مقابل بقية الأيام المرصودة حتى الآن.",
       noData: "لا توجد بيانات كافية للتحليل.",
@@ -598,7 +602,7 @@ const I18N = {
       dashboard: "Dashboard",
       compareYears: "Compare Years",
       analyses: "Analyses",
-      rawData: "Raw Data"
+      rawData: "Victims' Names"
     },
     brand: { logoAlt: "Abraham Initiatives logo" },
     hero: {
@@ -608,7 +612,10 @@ const I18N = {
     },
     filters: {
       year: "Year",
-      allOption: "All"
+      allOption: "All",
+      selectAria: "Select year",
+      previousYear: "Previous year",
+      nextYear: "Next year"
     },
     dashboard: {
       mapEyebrow: "Geographic dispersion",
@@ -699,7 +706,6 @@ const I18N = {
       eyebrow: "Seasonal analysis",
       title: "Ramadan analyses",
       subtitle: "Compare nominal counts, share of annual homicides, and daily homicide pace in Ramadan versus the rest of the year.",
-      calendarNote: "Ramadan dates are based on a common civil calendar and may differ by one day.",
       tableTitle: "Yearly comparison table",
       tableNote: "`pp` = percentage points. In a partial year, comparison uses the rest of the observed days so far.",
       noData: "Not enough data is available for analysis.",
@@ -847,7 +853,9 @@ const ui = {
   languageChips: Array.from(document.querySelectorAll(".lang-chip")),
   viewTabs: Array.from(document.querySelectorAll(".view-tab")),
   headerFilterGroup: document.querySelector(".header-filter-group"),
-  yearChips: document.getElementById("filter-year-chips"),
+  yearSelect: document.getElementById("header-year-select"),
+  yearPrev: document.getElementById("header-year-prev"),
+  yearNext: document.getElementById("header-year-next"),
   dashboardView: document.getElementById("dashboard-view"),
   compareView: document.getElementById("compare-view"),
   analysesView: document.getElementById("analyses-view"),
@@ -881,7 +889,6 @@ const ui = {
   rawTableHead: document.querySelector("#raw-records-table thead"),
   rawTableBody: document.querySelector("#raw-records-table tbody"),
   ramadanAnalysisKpis: document.getElementById("ramadan-analysis-kpis"),
-  ramadanAnalysisNote: document.getElementById("ramadan-analysis-note"),
   ramadanAnalysisTableHead: document.querySelector("#ramadan-analysis-table thead"),
   ramadanAnalysisTableBody: document.querySelector("#ramadan-analysis-table tbody")
 };
@@ -1674,20 +1681,65 @@ function createKpi(label, value, tone = "primary") {
   return card;
 }
 
-function renderYearFilterChips() {
-  ui.yearChips.innerHTML = "";
+function getChronologicalYears() {
+  return state.years.slice().sort((a, b) => a - b);
+}
 
-  [ALL_FILTER_VALUE, ...state.years].forEach((value) => {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "header-year-chip";
-    button.dataset.year = value;
-    button.textContent = value === ALL_FILTER_VALUE ? t("filters.allOption") : formatYear(value);
-    const isActive = String(state.selectedYear) === String(value);
-    button.classList.toggle("is-active", isActive);
-    button.setAttribute("aria-pressed", String(isActive));
-    ui.yearChips.appendChild(button);
-  });
+function syncYearStepperButtons() {
+  const years = getChronologicalYears().map((year) => String(year));
+  const selected = String(state.selectedYear);
+  const isAllSelected = selected === ALL_FILTER_VALUE;
+  const currentIndex = years.indexOf(selected);
+
+  ui.yearPrev.disabled = isAllSelected || currentIndex <= 0;
+  ui.yearNext.disabled = isAllSelected || currentIndex === -1 || currentIndex >= years.length - 1;
+}
+
+function syncYearStepperDirection() {
+  ui.yearPrev.textContent = isRtlLanguage() ? "\u203a" : "\u2039";
+  ui.yearNext.textContent = isRtlLanguage() ? "\u2039" : "\u203a";
+}
+
+function renderYearFilterControl() {
+  ui.yearSelect.innerHTML = "";
+
+  const allOption = document.createElement("option");
+  allOption.value = ALL_FILTER_VALUE;
+  allOption.textContent = t("filters.allOption");
+  allOption.selected = String(state.selectedYear) === ALL_FILTER_VALUE;
+  ui.yearSelect.appendChild(allOption);
+
+  state.years
+    .slice()
+    .sort((a, b) => b - a)
+    .forEach((year) => {
+      const option = document.createElement("option");
+      option.value = String(year);
+      const partial = state.yearMeta.get(year)?.partial;
+      option.textContent = partial ? `${formatYear(year)} • ${t("common.partialBadge")}` : formatYear(year);
+      option.selected = String(state.selectedYear) === String(year);
+      ui.yearSelect.appendChild(option);
+    });
+
+  syncYearStepperDirection();
+  syncYearStepperButtons();
+}
+
+function shiftSelectedYear(direction) {
+  const years = getChronologicalYears().map((year) => String(year));
+  const selected = String(state.selectedYear);
+  const currentIndex = years.indexOf(selected);
+  if (currentIndex === -1) {
+    return;
+  }
+
+  const nextIndex = currentIndex + direction;
+  if (nextIndex < 0 || nextIndex >= years.length) {
+    return;
+  }
+
+  state.selectedYear = years[nextIndex];
+  render();
 }
 
 function renderMetricSelect(selectNode, selectedMetric) {
@@ -2747,10 +2799,6 @@ function renderCompare() {
   renderCompareTable(rows);
 }
 
-function renderRamadanAnalysisNote() {
-  ui.ramadanAnalysisNote.textContent = t("analyses.calendarNote");
-}
-
 function renderRamadanAnalysisKpis(rows) {
   ui.ramadanAnalysisKpis.innerHTML = "";
   if (!rows.length) {
@@ -2886,7 +2934,6 @@ function renderRamadanAnalysisTable(rows) {
 
 function renderAnalyses() {
   const rows = computeRamadanAnalysisRows();
-  renderRamadanAnalysisNote();
   renderRamadanAnalysisKpis(rows);
   renderRamadanNominalChart(rows);
   renderRamadanShareChart(rows);
@@ -2966,7 +3013,7 @@ function hydrateStateFromUrl() {
 
 function render() {
   applyStaticTranslations();
-  renderYearFilterChips();
+  renderYearFilterControl();
   renderActiveView();
   commitUrlState();
 
@@ -2983,13 +3030,17 @@ function render() {
 }
 
 function setupEvents() {
-  ui.yearChips.addEventListener("click", (event) => {
-    const button = event.target.closest("[data-year]");
-    if (!button) {
-      return;
-    }
-    state.selectedYear = button.dataset.year || ALL_FILTER_VALUE;
+  ui.yearSelect.addEventListener("change", (event) => {
+    state.selectedYear = event.target.value || ALL_FILTER_VALUE;
     render();
+  });
+
+  ui.yearPrev.addEventListener("click", () => {
+    shiftSelectedYear(-1);
+  });
+
+  ui.yearNext.addEventListener("click", () => {
+    shiftSelectedYear(1);
   });
 
   ui.viewTabs.forEach((tab) => {

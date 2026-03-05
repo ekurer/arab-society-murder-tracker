@@ -189,9 +189,44 @@ h1 {
   font-weight: 700;
 }
 
-.view-tabs,
-.lang-chip-group,
-.header-year-chip-group {
+.view-tab:hover,
+.lang-chip:hover,
+.year-nav-button:hover,
+.ghost-button:hover,
+.leaderboard-item:hover {
+  transform: translateY(-1px);
+}
+
+.view-tabs {
+  gap: 0.25rem;
+  padding: 0.35rem;
+  border: 1px solid rgba(108, 94, 74, 0.2);
+  border-radius: 16px;
+  background: rgba(255, 251, 245, 0.72);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72);
+}
+
+.view-tab {
+  border: 1px solid transparent;
+  border-radius: 12px;
+  padding: 0.52rem 0.88rem;
+  background: transparent;
+  color: var(--ink-soft);
+  font-weight: 700;
+  transition:
+    border-color 140ms ease,
+    background 140ms ease,
+    color 140ms ease,
+    transform 140ms ease;
+}
+
+.view-tab.is-active {
+  border-color: rgba(10, 110, 113, 0.26);
+  background: rgba(10, 110, 113, 0.1);
+  color: var(--accent-strong);
+}
+
+.lang-chip-group {
   padding: 0.28rem;
   border: 1px solid rgba(108, 94, 74, 0.18);
   border-radius: 999px;
@@ -199,9 +234,7 @@ h1 {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
-.view-tab,
-.lang-chip,
-.header-year-chip {
+.lang-chip {
   border: 0;
   border-radius: 999px;
   padding: 0.55rem 0.9rem;
@@ -214,20 +247,51 @@ h1 {
     transform 140ms ease;
 }
 
-.view-tab:hover,
-.lang-chip:hover,
-.header-year-chip:hover,
-.ghost-button:hover,
-.leaderboard-item:hover {
-  transform: translateY(-1px);
-}
-
-.view-tab.is-active,
-.lang-chip.is-active,
-.header-year-chip.is-active {
+.lang-chip.is-active {
   background: linear-gradient(135deg, var(--accent), var(--accent-strong));
   color: #f8fbfb;
   box-shadow: 0 10px 18px rgba(10, 110, 113, 0.2);
+}
+
+.year-stepper {
+  display: flex;
+  align-items: center;
+  gap: 0.38rem;
+  padding: 0.25rem 0.35rem;
+  border: 1px solid rgba(108, 94, 74, 0.2);
+  border-radius: 14px;
+  background: rgba(255, 250, 242, 0.94);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.header-year-select {
+  min-width: 8.5rem;
+  width: auto;
+  padding: 0.46rem 1.9rem 0.46rem 0.72rem;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.year-nav-button {
+  border: 1px solid rgba(108, 94, 74, 0.2);
+  border-radius: 10px;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  background: rgba(255, 255, 255, 0.78);
+  color: var(--ink-soft);
+  font-weight: 800;
+  line-height: 1;
+  transition:
+    transform 140ms ease,
+    color 140ms ease,
+    border-color 140ms ease;
+}
+
+.year-nav-button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
 }
 
 .app-shell {
@@ -906,6 +970,19 @@ tbody tr.is-active {
   .hero-actions,
   .toolbar {
     align-items: stretch;
+  }
+
+  .header-filter-group {
+    width: 100%;
+  }
+
+  .year-stepper {
+    width: 100%;
+  }
+
+  .header-year-select {
+    flex: 1 1 auto;
+    min-width: 0;
   }
 
   .map-shell,

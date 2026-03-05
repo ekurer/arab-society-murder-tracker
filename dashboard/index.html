@@ -52,8 +52,35 @@
 
           <div class="toolbar">
             <div class="header-filter-group">
-              <div class="toolbar-label" data-i18n="filters.year">שנה</div>
-              <div id="filter-year-chips" class="header-year-chip-group" role="group" aria-label="Year filter"></div>
+              <label for="header-year-select" class="toolbar-label" data-i18n="filters.year">שנה</label>
+              <div class="year-stepper">
+                <button
+                  id="header-year-prev"
+                  type="button"
+                  class="year-nav-button"
+                  data-year-nav="prev"
+                  aria-label="שנה קודמת"
+                  data-i18n-aria-label="filters.previousYear"
+                >
+                  &#8249;
+                </button>
+                <select
+                  id="header-year-select"
+                  class="header-year-select"
+                  aria-label="בחירת שנה"
+                  data-i18n-aria-label="filters.selectAria"
+                ></select>
+                <button
+                  id="header-year-next"
+                  type="button"
+                  class="year-nav-button"
+                  data-year-nav="next"
+                  aria-label="שנה הבאה"
+                  data-i18n-aria-label="filters.nextYear"
+                >
+                  &#8250;
+                </button>
+              </div>
             </div>
 
             <div id="language-chip-group" class="lang-chip-group" role="group" aria-label="בחירת שפה" data-i18n-aria-label="language.selectorAria">
@@ -263,7 +290,6 @@
           <p class="analysis-lede" data-i18n="analyses.subtitle">
             השוואה בין ספירה נומינלית, משקל מסך מקרי הרצח באותה שנה, וקצב רצח יומי ברמדאן מול שאר ימי השנה.
           </p>
-          <p id="ramadan-analysis-note" class="analysis-note"></p>
         </section>
 
         <section class="kpis" id="ramadan-analysis-kpis"></section>
