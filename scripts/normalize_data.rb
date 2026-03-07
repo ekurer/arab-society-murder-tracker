@@ -78,7 +78,7 @@ NON_PERSON_NAME_PATTERNS = [
   /נמצאה תלויה/
 ].freeze
 
-SOLVED_STATUSES = ["Solved/Indicted", "Partially Solved"].freeze
+SOLVED_STATUSES = ["Solved/Indicted"].freeze
 
 def clean_text(value)
   value.to_s.encode("UTF-8", invalid: :replace, undef: :replace, replace: "").gsub("\uFEFF", "").strip
@@ -300,10 +300,15 @@ def normalize_solved_status(solved_raw, police_status_raw)
   merged = [solved_text, police_text].reject(&:empty?).join(" ")
   return "Unknown" if merged.empty?
 
-  return "Solved/Indicted" if merged.include?("כתב אישום")
-  return "Partially Solved" if merged.include?("עצור") || merged.include?("מעצר")
+  return "Unsolved" if merged.include?("לא הוגש כתב אישום") || merged.include?("לא הוגשו כתבי אישום")
+  return "Unsolved" if merged.include?("טרם הוגש כתב אישום") || merged.include?("ללא כתב אישום")
+  return "Unsolved" if merged.include?("אין כתב אישום")
+  return "Unsolved" if merged.include?("כתב אישום שאינו על רצח")
+  return "Solved/Indicted" if merged.include?("כתב אישום") || merged.include?("כתבי אישום")
+  return "Partially Solved" if merged.include?("עצור") || merged.include?("מעצר") || merged.include?("הצהרת תובע")
+  return "Partially Solved" if merged.include?("פעילות משטרתית")
   return "Unsolved" if merged.include?("לא פוענח") || solved_text == "לא"
-  return "Solved/Indicted" if solved_text == "כן" || merged.include?("פוענח")
+  return "Unknown" if solved_text == "כן" || merged.include?("פוענח")
 
   "Unknown"
 end

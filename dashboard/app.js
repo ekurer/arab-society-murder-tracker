@@ -8,6 +8,7 @@ const ALL_FILTER_VALUE = "ALL";
 const TRAJECTORY_YEAR = 2026;
 const MS_PER_DAY = 86400000;
 const MAP_METRICS = ["victims", "share", "solved_share", "firearm_share"];
+const SOLVED_STATUS_FOR_METRICS = "Solved/Indicted";
 const RECENT_VICTIMS_LIMIT = 8;
 const DEFAULT_MAP_CENTER = [31.85, 35.03];
 const DEFAULT_MAP_ZOOM = 8;
@@ -245,14 +246,14 @@ const I18N = {
       delta: "שינוי",
       deltaPct: "שינוי יחסי",
       firearmDelta: "שינוי בחלק הירי",
-      solvedDelta: "שינוי בשיעור הפענוח",
+      solvedDelta: "שינוי בשיעור כתבי האישום",
       table: {
         locality: "יישוב",
         yearA: "שנה א׳",
         yearB: "שנה ב׳",
         delta: "שינוי",
         firearmDelta: "שינוי בחלק הירי",
-        solvedDelta: "שינוי בפענוח"
+        solvedDelta: "שינוי בכתבי האישום"
       }
     },
     common: {
@@ -268,12 +269,12 @@ const I18N = {
     mapMetrics: {
       victims: "מספר קורבנות",
       share: "חלק מההיקף הנבחר",
-      solved_share: "שיעור פענוח",
+      solved_share: "שיעור כתבי אישום",
       firearm_share: "שיעור ירי"
     },
     kpi: {
       total: "סה\"כ קורבנות",
-      solvedShare: "שיעור פענוח",
+      solvedShare: "שיעור כתבי אישום",
       firearmShare: "שיעור ירי",
       mappedLocalities: "יישובים ממופים",
       allYearsTotal: "סה\"כ כל השנים"
@@ -281,7 +282,7 @@ const I18N = {
     detail: {
       totalVictims: "קורבנות בהיקף הנבחר",
       allYearsTotal: "קורבנות בכל השנים",
-      solvedShare: "שיעור פענוח",
+      solvedShare: "שיעור כתבי אישום",
       firearmShare: "שיעור ירי",
       recentSources: "מקורות",
       moreContext: "הערות נוספות"
@@ -315,7 +316,7 @@ const I18N = {
         ratio: "יחס קצבים",
         excess: "עודף/חסר",
         firearmDelta: "שינוי במשקל הירי",
-        solvedDelta: "שינוי בשיעור הפענוח",
+        solvedDelta: "שינוי בשיעור כתבי האישום",
         coverage: "כיסוי"
       },
       labels: {
@@ -453,14 +454,14 @@ const I18N = {
       delta: "التغير",
       deltaPct: "التغير النسبي",
       firearmDelta: "تغير نسبة السلاح الناري",
-      solvedDelta: "تغير نسبة الحل",
+      solvedDelta: "تغير نسبة لوائح الاتهام",
       table: {
         locality: "البلدة",
         yearA: "السنة أ",
         yearB: "السنة ب",
         delta: "التغير",
         firearmDelta: "تغير السلاح الناري",
-        solvedDelta: "تغير الحل"
+        solvedDelta: "تغير لوائح الاتهام"
       }
     },
     common: {
@@ -476,12 +477,12 @@ const I18N = {
     mapMetrics: {
       victims: "عدد الضحايا",
       share: "الحصة من النطاق المختار",
-      solved_share: "نسبة الحل",
+      solved_share: "نسبة لوائح الاتهام",
       firearm_share: "نسبة السلاح الناري"
     },
     kpi: {
       total: "إجمالي الضحايا",
-      solvedShare: "نسبة الحل",
+      solvedShare: "نسبة لوائح الاتهام",
       firearmShare: "نسبة السلاح الناري",
       mappedLocalities: "بلدات ممسوحة",
       allYearsTotal: "إجمالي كل السنوات"
@@ -489,7 +490,7 @@ const I18N = {
     detail: {
       totalVictims: "ضحايا في النطاق المختار",
       allYearsTotal: "ضحايا في كل السنوات",
-      solvedShare: "نسبة الحل",
+      solvedShare: "نسبة لوائح الاتهام",
       firearmShare: "نسبة السلاح الناري",
       recentSources: "المصادر",
       moreContext: "معلومات إضافية"
@@ -523,7 +524,7 @@ const I18N = {
         ratio: "نسبة الوتيرتين",
         excess: "زيادة/نقصان",
         firearmDelta: "تغير حصة السلاح الناري",
-        solvedDelta: "تغير نسبة الحل",
+        solvedDelta: "تغير نسبة لوائح الاتهام",
         coverage: "التغطية"
       },
       labels: {
@@ -662,14 +663,14 @@ const I18N = {
       delta: "Delta",
       deltaPct: "Relative delta",
       firearmDelta: "Firearm-share delta",
-      solvedDelta: "Solved-share delta",
+      solvedDelta: "Indictment-share delta",
       table: {
         locality: "Locality",
         yearA: "Year A",
         yearB: "Year B",
         delta: "Delta",
         firearmDelta: "Firearm delta",
-        solvedDelta: "Solved delta"
+        solvedDelta: "Indictment delta"
       }
     },
     common: {
@@ -685,12 +686,12 @@ const I18N = {
     mapMetrics: {
       victims: "Victim count",
       share: "Share of selected scope",
-      solved_share: "Solved share",
+      solved_share: "Indictment share",
       firearm_share: "Firearm share"
     },
     kpi: {
       total: "Total victims",
-      solvedShare: "Solved share",
+      solvedShare: "Indictment share",
       firearmShare: "Firearm share",
       mappedLocalities: "Mapped localities",
       allYearsTotal: "All-years total"
@@ -698,7 +699,7 @@ const I18N = {
     detail: {
       totalVictims: "Victims in selected scope",
       allYearsTotal: "Victims across all years",
-      solvedShare: "Solved share",
+      solvedShare: "Indictment share",
       firearmShare: "Firearm share",
       recentSources: "Sources",
       moreContext: "More context"
@@ -732,7 +733,7 @@ const I18N = {
         ratio: "Rate ratio",
         excess: "Excess/deficit",
         firearmDelta: "Firearm-share delta",
-        solvedDelta: "Solved-share delta",
+        solvedDelta: "Indictment-share delta",
         coverage: "Coverage"
       },
       labels: {
@@ -1154,6 +1155,10 @@ function translateFieldValue(field, value) {
     default:
       return value;
   }
+}
+
+function isSolvedForMetrics(record) {
+  return record?.solved_status === SOLVED_STATUS_FOR_METRICS;
 }
 
 function createPlotTheme() {
@@ -1639,12 +1644,8 @@ function computeRamadanAnalysisRows(records = state.mainRecords) {
       const yearlyFirearmShare = totalVictimsObserved
         ? yearRecords.filter((record) => record.weapon_type === "Firearm").length / totalVictimsObserved
         : null;
-      const ramadanSolvedShare = ramadanVictims
-        ? ramadanRecords.filter((record) => ["Solved/Indicted", "Partially Solved"].includes(record.solved_status)).length / ramadanVictims
-        : null;
-      const yearlySolvedShare = totalVictimsObserved
-        ? yearRecords.filter((record) => ["Solved/Indicted", "Partially Solved"].includes(record.solved_status)).length / totalVictimsObserved
-        : null;
+      const ramadanSolvedShare = ramadanVictims ? ramadanRecords.filter((record) => isSolvedForMetrics(record)).length / ramadanVictims : null;
+      const yearlySolvedShare = totalVictimsObserved ? yearRecords.filter((record) => isSolvedForMetrics(record)).length / totalVictimsObserved : null;
 
       return {
         year,
@@ -2061,15 +2062,12 @@ function renderDashboardKpis() {
   ui.dashboardKpis.innerHTML = "";
   const scopeRecords = getDashboardDetailRecords();
   const mapRows = getDashboardMapRows();
-  const solvedShare = scopeRecords.length
-    ? scopeRecords.filter((record) => ["Solved/Indicted", "Partially Solved"].includes(record.solved_status)).length / scopeRecords.length
-    : 0;
+  const solvedShare = scopeRecords.length ? scopeRecords.filter((record) => isSolvedForMetrics(record)).length / scopeRecords.length : 0;
   const firearmShare = scopeRecords.length
     ? scopeRecords.filter((record) => record.firearm_involved === "Yes").length / scopeRecords.length
     : 0;
 
   ui.dashboardKpis.appendChild(createKpi(t("kpi.total"), formatNumber(scopeRecords.length), "primary"));
-  ui.dashboardKpis.appendChild(createKpi(t("kpi.solvedShare"), formatPct(solvedShare), "secondary"));
   ui.dashboardKpis.appendChild(createKpi(t("kpi.firearmShare"), formatPct(firearmShare), "secondary"));
 
   if (state.selectedLocalityKey) {
@@ -2078,6 +2076,8 @@ function renderDashboardKpis() {
   } else {
     ui.dashboardKpis.appendChild(createKpi(t("kpi.mappedLocalities"), formatNumber(mapRows.length), "secondary"));
   }
+
+  ui.dashboardKpis.appendChild(createKpi(t("kpi.solvedShare"), formatPct(solvedShare), "tertiary"));
 }
 
 function renderDashboardCoverageNote() {
@@ -2561,8 +2561,8 @@ function renderCompareKpis(rows) {
   const deltaPct = totalA > 0 ? delta / totalA : null;
   const firearmShareA = totalA ? yearARecords.filter((record) => record.firearm_involved === "Yes").length / totalA : 0;
   const firearmShareB = totalB ? yearBRecords.filter((record) => record.firearm_involved === "Yes").length / totalB : 0;
-  const solvedShareA = totalA ? yearARecords.filter((record) => ["Solved/Indicted", "Partially Solved"].includes(record.solved_status)).length / totalA : 0;
-  const solvedShareB = totalB ? yearBRecords.filter((record) => ["Solved/Indicted", "Partially Solved"].includes(record.solved_status)).length / totalB : 0;
+  const solvedShareA = totalA ? yearARecords.filter((record) => isSolvedForMetrics(record)).length / totalA : 0;
+  const solvedShareB = totalB ? yearBRecords.filter((record) => isSolvedForMetrics(record)).length / totalB : 0;
 
   ui.compareKpis.appendChild(createKpi(t("compare.totalA"), formatNumber(totalA), "primary"));
   ui.compareKpis.appendChild(createKpi(t("compare.totalB"), formatNumber(totalB), "primary"));
