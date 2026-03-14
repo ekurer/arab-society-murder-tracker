@@ -210,7 +210,7 @@ const I18N = {
     narrative: {
       lead: "עמותת יוזמות אברהם עוקבת אחר קורבנות רצח בחברה הערבית בישראל משנת 2018 עד היום.",
       context:
-        "בין השנים 2000 ל-2009 מספר הנרצחים הערבים בישראל היה נמוך ממספר הנרצחים היהודים. הפער התהפך רק סביב 2010. השינוי המרכזי אינו בזהות קולקטיבית, אלא במציאות של אכיפה, זמינות נשק ומשילות. במסך האנליזות אפשר לעבור גם להשוואה מול מדינות לא-עתירות הכנסה עם שיעורי רצח גבוהים, לצד מדינות ערביות עם נתון זמין, שבה החברה הערבית בישראל מוצגת כיחידה אנליטית אחת."
+        "בין השנים 2000 ל-2009 מספר הנרצחים הערבים בישראל היה נמוך ממספר הנרצחים היהודים. הפער התהפך רק סביב 2010. השינוי המרכזי אינו בזהות קולקטיבית, אלא במציאות של אכיפה, זמינות נשק ומשילות."
     },
     filters: {
       year: "שנה",
@@ -480,7 +480,7 @@ const I18N = {
     narrative: {
       lead: "تتابع مبادرات إبراهيم ضحايا القتل في المجتمع العربي في إسرائيل منذ عام 2018 وحتى اليوم.",
       context:
-        "بين الأعوام 2000 و2009 كان عدد الضحايا العرب في إسرائيل أقل من عدد الضحايا اليهود. انقلب هذا الفارق فقط حول عام 2010. التغيير المركزي لا يتعلق بهوية جماعية، بل بواقع يرتبط بإنفاذ القانون وتوفر السلاح والحوكمة. في شاشة التحليلات يمكن أيضاً الانتقال إلى مقارنة مع دول غير مرتفعة الدخل ذات معدلات قتل مرتفعة، إلى جانب دول عربية لديها قيمة متاحة، حيث يُعرض المجتمع العربي في إسرائيل كوحدة تحليلية واحدة."
+        "بين الأعوام 2000 و2009 كان عدد الضحايا العرب في إسرائيل أقل من عدد الضحايا اليهود. انقلب هذا الفارق فقط حول عام 2010. التغيير المركزي لا يتعلق بهوية جماعية، بل بواقع يرتبط بإنفاذ القانون وتوفر السلاح والحوكمة."
     },
     filters: {
       year: "السنة",
@@ -749,7 +749,7 @@ const I18N = {
     narrative: {
       lead: "The Abraham Initiatives has tracked homicide victims in Arab society in Israel from 2018 through today.",
       context:
-        "Between 2000 and 2009, the number of Arab homicide victims in Israel was lower than the number of Jewish homicide victims. The gap reversed only around 2010. The central change is not collective identity, but a reality shaped by enforcement, weapon availability, and governance. The analyses screen also includes a comparison against non-high-income countries with high homicide rates, alongside Arab countries with available values, treating Arab society in Israel as a single analytical unit."
+        "Between 2000 and 2009, the number of Arab homicide victims in Israel was lower than the number of Jewish homicide victims. The gap reversed only around 2010. The central change is not collective identity, but a reality shaped by enforcement, weapon availability, and governance."
     },
     filters: {
       year: "Year",
