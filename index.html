@@ -1,77 +1,266 @@
 <!doctype html>
-<html lang="en">
+<html lang="he" dir="rtl">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Redirecting to dashboard</title>
-    <meta name="robots" content="noindex,follow" />
-    <link rel="canonical" href="https://ekurer.github.io/arab-society-murder-tracker/dashboard/" />
-    <meta http-equiv="refresh" content="0; url=./dashboard/" />
-    <script>
-      const supportedLanguages = new Set(["he", "ar", "en"]);
-
-      function detectLanguage(searchParams) {
-        const explicitLanguage = searchParams.get("lang");
-        if (supportedLanguages.has(explicitLanguage)) {
-          return explicitLanguage;
-        }
-
-        const browserLanguages = [...(navigator.languages || []), navigator.language]
-          .filter(Boolean)
-          .map((language) => language.toLowerCase());
-
-        for (const language of browserLanguages) {
-          if (language.startsWith("he")) {
-            return "he";
+    <title>רצח בחברה הערבית בישראל | דשבורד נתונים, שמות הנרצחים ומפה לפי יישוב</title>
+    <meta
+      name="description"
+      content="עמוד מרכזי על רצח בחברה הערבית בישראל: מספר נרצחים לפי שנה ויישוב, דשבורד אינטראקטיבי, שמות הנרצחים, מגמות, מפה ונתונים פתוחים."
+    />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <meta name="theme-color" content="#f3eee5" />
+    <link rel="canonical" href="https://ekurer.github.io/arab-society-murder-tracker/" />
+    <link rel="alternate" hreflang="he" href="https://ekurer.github.io/arab-society-murder-tracker/" />
+    <link rel="alternate" hreflang="ar" href="https://ekurer.github.io/arab-society-murder-tracker/ar/" />
+    <link rel="alternate" hreflang="en" href="https://ekurer.github.io/arab-society-murder-tracker/en/" />
+    <link rel="alternate" hreflang="x-default" href="https://ekurer.github.io/arab-society-murder-tracker/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Arab Society Homicide Tracker" />
+    <meta property="og:locale" content="he_IL" />
+    <meta property="og:title" content="רצח בחברה הערבית בישראל | דשבורד נתונים, שמות הנרצחים ומפה לפי יישוב" />
+    <meta
+      property="og:description"
+      content="נתונים פתוחים על רצח בחברה הערבית בישראל: מספר נרצחים לפי שנה ויישוב, שמות הנרצחים, השוואת שנים, מפה וגרפים."
+    />
+    <meta property="og:url" content="https://ekurer.github.io/arab-society-murder-tracker/" />
+    <meta
+      property="og:image"
+      content="https://ekurer.github.io/arab-society-murder-tracker/dashboard/assets/abraham-initiatives-logo.png"
+    />
+    <meta property="og:image:alt" content="לוגו יוזמות אברהם" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="רצח בחברה הערבית בישראל | דשבורד נתונים ומאגר פתוח" />
+    <meta
+      name="twitter:description"
+      content="עמוד מרכזי על רצח בחברה הערבית בישראל עם דשבורד, שמות הנרצחים, מפה לפי יישוב וקבצי נתונים פתוחים."
+    />
+    <meta
+      name="twitter:image"
+      content="https://ekurer.github.io/arab-society-murder-tracker/dashboard/assets/abraham-initiatives-logo.png"
+    />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Dataset",
+        "name": "רצח בחברה הערבית בישראל - מאגר ודשבורד נתונים",
+        "description": "מאגר נתונים ודשבורד אינטראקטיבי למעקב אחר רצח בחברה הערבית בישראל לפי שנה, יישוב, מגדר, סוג כלי הרג ומצב פענוח.",
+        "url": "https://ekurer.github.io/arab-society-murder-tracker/",
+        "inLanguage": "he",
+        "isAccessibleForFree": true,
+        "creator": {
+          "@type": "Organization",
+          "name": "The Abraham Initiatives"
+        },
+        "distribution": [
+          {
+            "@type": "DataDownload",
+            "encodingFormat": "application/json",
+            "contentUrl": "https://ekurer.github.io/arab-society-murder-tracker/data/homicides_normalized.json"
+          },
+          {
+            "@type": "DataDownload",
+            "encodingFormat": "text/csv",
+            "contentUrl": "https://ekurer.github.io/arab-society-murder-tracker/data/homicides_normalized.csv"
           }
-
-          if (language.startsWith("ar")) {
-            return "ar";
-          }
-
-          if (language.startsWith("en")) {
-            return "en";
-          }
-        }
-
-        return "he";
+        ]
       }
-
-      const currentUrl = new URL(window.location.href);
-      const targetUrl = new URL("./dashboard/", currentUrl);
-
-      currentUrl.searchParams.forEach((value, key) => {
-        targetUrl.searchParams.append(key, value);
-      });
-
-      if (!supportedLanguages.has(targetUrl.searchParams.get("lang"))) {
-        targetUrl.searchParams.set("lang", detectLanguage(currentUrl.searchParams));
-      }
-
-      targetUrl.hash = currentUrl.hash;
-
-      window.location.replace(targetUrl.toString());
     </script>
-    <style>
-      body {
-        margin: 0;
-        min-height: 100vh;
-        display: grid;
-        place-items: center;
-        font-family: system-ui, sans-serif;
-        background: #f3eee5;
-        color: #172033;
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "מה אפשר לראות בדשבורד על רצח בחברה הערבית בישראל?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "הדשבורד כולל מספר נרצחים לפי שנה, מפה לפי יישוב מגורים, השוואת שנים, פילוח לפי מגדר וסוג כלי הרג, וטבלת שמות הנרצחים עם קישורי מקור כאשר הם זמינים."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "האם יש באתר שמות נרצחים בחברה הערבית?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "כן. באתר יש תצוגת נתונים גולמיים עם רשימת שמות הנרצחים לפי שנה, יחד עם שדות נתונים וקישורי מקור כאשר הם קיימים."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "איך הנתונים על רצח בחברה הערבית מאורגנים באתר?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "הנתונים מאורגנים לפי שנה ויישוב, ומוצגים גם בדשבורד אינטראקטיבי וגם בקבצי JSON ו-CSV פתוחים להורדה."
+            }
+          }
+        ]
       }
-
-      a {
-        color: inherit;
-      }
-    </style>
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Sora:wght@400;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./site.css" />
   </head>
   <body>
-    <p>Redirecting to the dashboard. <a id="redirect-link" href="./dashboard/">Continue</a></p>
-    <script>
-      document.getElementById("redirect-link").href = targetUrl.toString();
-    </script>
+    <div class="ambient ambient-a"></div>
+    <div class="ambient ambient-b"></div>
+    <div class="ambient ambient-c"></div>
+
+    <header class="page-shell hero-shell">
+      <div class="topbar">
+        <a class="brand" href="./">
+          <img src="./dashboard/assets/abraham-initiatives-logo.png" alt="לוגו יוזמות אברהם" class="brand-logo" />
+          <span>Arab Society Homicide Tracker</span>
+        </a>
+
+        <nav class="lang-nav" aria-label="שפות">
+          <a class="lang-link is-active" href="./">עברית</a>
+          <a class="lang-link" href="./ar/">العربية</a>
+          <a class="lang-link" href="./en/">English</a>
+        </nav>
+      </div>
+
+      <section class="hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">2018-2026 | מתעדכן כל 24 שעות</p>
+          <h1>רצח בחברה הערבית בישראל: דשבורד נתונים, מפה לפי יישוב ושמות הנרצחים</h1>
+          <p class="lede">
+            זהו העמוד המרכזי למי שמחפש מידע על רצח בחברה הערבית בישראל. האתר מרכז מספר נרצחים לפי שנה ויישוב, שמות הנרצחים,
+            השוואת שנים, פילוח לפי מגדר וסוג כלי הרג, וגישה ישירה לדשבורד אינטראקטיבי ולקבצי נתונים פתוחים.
+          </p>
+          <div class="cta-row">
+            <a class="button-primary" href="./dashboard/?lang=he">כניסה לדשבורד</a>
+            <a class="button-secondary" href="./dashboard/?lang=he&view=raw">שמות הנרצחים</a>
+            <a class="button-secondary" href="./dashboard/?lang=he&view=compare">השוואת שנים</a>
+          </div>
+        </div>
+
+        <aside class="side-card">
+          <h2>מה תמצאו כאן</h2>
+          <ul class="feature-list">
+            <li>מספר נרצחים בחברה הערבית בישראל לפי שנה.</li>
+            <li>מפת רצח לפי יישוב מגורים ולא לפי נקודת אירוע.</li>
+            <li>השוואת שנים ברמת היישוב עם שינוי במספר הקורבנות.</li>
+            <li>פירוק לפי מגדר, סוג כלי הרג ומצב פענוח.</li>
+            <li>טבלת שמות הנרצחים עם קישורי מקור כאשר הם זמינים.</li>
+          </ul>
+        </aside>
+      </section>
+    </header>
+
+    <main class="page-shell section-stack">
+      <section class="card-grid" aria-labelledby="search-intents-title">
+        <div class="content-card">
+          <h2 id="search-intents-title">רצח בחברה הערבית: מה אפשר לבדוק באתר</h2>
+          <p>
+            אם מישהו מחפש בגוגל מונחים כמו "רצח בחברה הערבית", "מספר נרצחים בחברה הערבית 2026", "קורבנות רצח לפי יישוב",
+            "יישובים עם הכי הרבה מקרי רצח", או "שמות הנרצחים בחברה הערבית", העמוד הזה נועד להיות נקודת הכניסה הברורה.
+          </p>
+        </div>
+
+        <div class="content-card">
+          <h2>כיסוי נתונים ועדכון</h2>
+          <p>
+            המאגר הנוכחי כולל שנים 2018 עד 2026. הנתונים נמשכים מגיליון ציבורי, מנורמלים לקבצי JSON ו-CSV, ומתעדכנים אחת ל-24
+            שעות כדי לאפשר גם עיון בדשבורד וגם שימוש ישיר בנתונים.
+          </p>
+        </div>
+
+        <div class="content-card">
+          <h2>מתודולוגיה בקצרה</h2>
+          <p>
+            המפה מציגה מרכזי יישובים של מקום המגורים של הקורבן. היא אינה מנסה להצביע על נקודת רצח מדויקת, כדי לשמור על דיוק
+            מתודולוגי ולהימנע מהטעיה חזותית.
+          </p>
+        </div>
+      </section>
+
+      <section class="split-card" aria-labelledby="explore-title">
+        <div>
+          <p class="eyebrow">ניווט מהיר</p>
+          <h2 id="explore-title">איפה כדאי להתחיל</h2>
+          <p>
+            הדשבורד הראשי מתאים למי שמחפש תמונת מצב כללית על רצח בחברה הערבית בישראל. מסך ההשוואה מתאים לבדיקת שינוי בין שנים
+            ברמת יישוב, וטבלת השמות מתאימה לעיתונאים, חוקרים ופעילים שרוצים להגיע במהירות לשמות הנרצחים ולקישורי המקור.
+          </p>
+        </div>
+
+        <div class="link-list">
+          <a class="inline-link-card" href="./dashboard/?lang=he">
+            <strong>דשבורד ראשי</strong>
+            <span>מפה, מגמות, גרפים ויישובים בולטים.</span>
+          </a>
+          <a class="inline-link-card" href="./dashboard/?lang=he&view=compare">
+            <strong>השוואת שנים</strong>
+            <span>בדיקת שינויים בין שתי שנים ברמת היישוב.</span>
+          </a>
+          <a class="inline-link-card" href="./dashboard/?lang=he&view=analyses">
+            <strong>אנליזות</strong>
+            <span>ניתוחי רמדאן והשוואות נוספות מתוך אותו מאגר.</span>
+          </a>
+          <a class="inline-link-card" href="./dashboard/?lang=he&view=raw">
+            <strong>שמות הנרצחים</strong>
+            <span>רשומה לפי שנה עם קישורי מקור כאשר הם קיימים.</span>
+          </a>
+        </div>
+      </section>
+
+      <section class="card-grid" aria-labelledby="faq-title">
+        <div class="content-card">
+          <h2 id="faq-title">שאלות נפוצות</h2>
+          <p>
+            ריכזנו כאן תשובות קצרות לשאלות חיפוש נפוצות על רצח בחברה הערבית, כדי לעזור גם למי שמגיע מגוגל וגם למי שמחפש דרך
+            מהירה להגיע למסך הרלוונטי באתר.
+          </p>
+        </div>
+
+        <div class="content-card">
+          <h2>איפה רואים שמות נרצחים?</h2>
+          <p>
+            בעמוד <a href="./dashboard/?lang=he&view=raw">שמות הנרצחים</a> אפשר לראות את הרשומות לפי שנה, עם שדות הנתונים
+            וקישורי המקור כאשר הם זמינים.
+          </p>
+        </div>
+
+        <div class="content-card">
+          <h2>אפשר לראות נתונים לפי יישוב?</h2>
+          <p>
+            כן. בדשבורד הראשי ובמסך <a href="./dashboard/?lang=he&view=compare">השוואת שנים</a> אפשר לבדוק את מספר הנרצחים
+            והפערים בין שנים ברמת היישוב.
+          </p>
+        </div>
+      </section>
+
+      <section class="card-grid" aria-labelledby="language-title">
+        <div class="content-card">
+          <h2 id="language-title">עמודים מקבילים לשפות נוספות</h2>
+          <p>
+            כדי לאפשר הגעה מחיפוש גם בערבית ובאנגלית, יש לאתר עמודי נחיתה נפרדים לכל שפה. הם מפנים לאותו דשבורד עם מצב שפה
+            מתאים.
+          </p>
+        </div>
+        <a class="content-card language-card" href="./ar/">
+          <h2>العربية</h2>
+          <p>صفحة هبوط عربية للوصول إلى لوحة المتابعة والبيانات نفسها.</p>
+        </a>
+        <a class="content-card language-card" href="./en/">
+          <h2>English</h2>
+          <p>English landing page for search, sharing, and linking into the same dashboard.</p>
+        </a>
+      </section>
+    </main>
+
+    <footer class="page-shell footer">
+      <p>האתר פועל על GitHub Pages וכולל דשבורד, נתונים פתוחים וקבצי מקור נגישים להורדה.</p>
+      <div class="footer-links">
+        <a href="./dashboard/?lang=he">דשבורד</a>
+        <a href="https://github.com/ekurer/arab-society-murder-tracker">GitHub</a>
+      </div>
+    </footer>
   </body>
 </html>
