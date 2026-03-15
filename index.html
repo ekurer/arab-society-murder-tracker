@@ -10,6 +10,10 @@
     />
     <meta name="robots" content="index,follow,max-image-preview:large" />
     <meta name="theme-color" content="#f3eee5" />
+    <link rel="icon" href="./favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png" />
     <link rel="canonical" href="https://ekurer.github.io/arab-society-murder-tracker/" />
     <link rel="alternate" hreflang="he" href="https://ekurer.github.io/arab-society-murder-tracker/" />
     <link rel="alternate" hreflang="ar" href="https://ekurer.github.io/arab-society-murder-tracker/ar/" />
@@ -42,15 +46,49 @@
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
+        "@type": "Organization",
+        "@id": "https://ekurer.github.io/arab-society-murder-tracker/#organization",
+        "name": "יוזמות אברהם",
+        "alternateName": "The Abraham Initiatives",
+        "url": "https://abrahaminitiatives.org.il/",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://ekurer.github.io/arab-society-murder-tracker/dashboard/assets/abraham-initiatives-logo.png"
+        }
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "@id": "https://ekurer.github.io/arab-society-murder-tracker/#website",
+        "url": "https://ekurer.github.io/arab-society-murder-tracker/",
+        "name": "רצח בחברה הערבית בישראל",
+        "alternateName": "Arab Society Homicide Tracker",
+        "inLanguage": "he",
+        "publisher": {
+          "@id": "https://ekurer.github.io/arab-society-murder-tracker/#organization"
+        }
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
         "@type": "Dataset",
+        "@id": "https://ekurer.github.io/arab-society-murder-tracker/#dataset",
         "name": "רצח בחברה הערבית בישראל - מאגר ודשבורד נתונים",
         "description": "מאגר נתונים ודשבורד אינטראקטיבי למעקב אחר רצח בחברה הערבית בישראל לפי שנה, יישוב, מגדר, סוג כלי הרג ומצב פענוח.",
         "url": "https://ekurer.github.io/arab-society-murder-tracker/",
         "inLanguage": "he",
         "isAccessibleForFree": true,
         "creator": {
-          "@type": "Organization",
-          "name": "The Abraham Initiatives"
+          "@id": "https://ekurer.github.io/arab-society-murder-tracker/#organization"
+        },
+        "publisher": {
+          "@id": "https://ekurer.github.io/arab-society-murder-tracker/#organization"
+        },
+        "isPartOf": {
+          "@id": "https://ekurer.github.io/arab-society-murder-tracker/#website"
         },
         "distribution": [
           {
