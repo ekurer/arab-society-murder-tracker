@@ -1091,6 +1091,7 @@ const ui = {
   countryComparisonNote: document.getElementById("country-comparison-note"),
   countryComparisonMethodology: document.getElementById("country-comparison-methodology"),
   countryComparisonKpis: document.getElementById("country-comparison-kpis"),
+  countryComparisonTableNote: document.querySelector('[data-i18n="analyses.countryComparison.tableNote"]'),
   countryComparisonTableHead: document.querySelector("#country-comparison-table thead"),
   countryComparisonTableBody: document.querySelector("#country-comparison-table tbody"),
   ramadanAnalysisKpis: document.getElementById("ramadan-analysis-kpis"),
@@ -3483,6 +3484,11 @@ function renderCountryComparisonAnalysisTab() {
   const formattedYear = snapshot.year ? formatYear(snapshot.year) : "";
 
   renderCountryComparisonYearTabs();
+  if (ui.countryComparisonTableNote) {
+    ui.countryComparisonTableNote.textContent = snapshot.year
+      ? tFormat("analyses.countryComparison.tableNote", { year: formattedYear })
+      : t("analyses.countryComparison.tableNote");
+  }
   ui.countryComparisonNote.textContent = snapshot.year
     ? `${t("analyses.countryComparison.disclaimer")} ${tFormat("analyses.countryComparison.noCountryData", { year: formattedYear })}`.trim()
     : t("analyses.countryComparison.disclaimer");
