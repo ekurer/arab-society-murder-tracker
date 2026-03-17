@@ -172,7 +172,28 @@ def map_header_to_field(key)
   end
 end
 
-def build_header_map(header_row)
+def infer_missing_age_column(sample_rows, gender_indices, used_indices)
+  return nil if gender_indices.empty?
+
+  candidates = gender_indices.flat_map { |idx| [idx - 1, idx - 2, idx - 3] }
+  candidates = candidates.select { |idx| idx >= 0 && !used_indices.include?(idx) }.uniq
+  return nil if candidates.empty?
+
+  scored_candidates = candidates.map do |candidate_idx|
+    numeric_hits = sample_rows.count do |row|
+      value = clean_text(row[candidate_idx])
+      number = parse_int(value)
+      !value.empty? && number && number <= 120
+    end
+    distance = gender_indices.map { |gender_idx| (gender_idx - candidate_idx).abs }.min || 99
+    [candidate_idx, numeric_hits, distance]
+  end
+
+  best_idx, best_score, = scored_candidates.max_by { |_candidate_idx, score, distance| [score, -distance] }
+  best_score&.positive? ? best_idx : nil
+end
+
+def build_header_map(header_row, sample_rows = [])
   mapping = Hash.new { |hash, key| hash[key] = [] }
 
   header_row.each_with_index do |header_value, idx|
@@ -182,14 +203,11 @@ def build_header_map(header_row)
 
   used_indices = mapping.values.flatten.uniq
 
-  if mapping[:age].empty? && !mapping[:gender].empty?
-    gender_idx = mapping[:gender].first
-    [gender_idx - 1, gender_idx - 2].each do |candidate|
-      next if candidate.negative? || used_indices.include?(candidate)
-
-      mapping[:age] << candidate
-      used_indices << candidate
-      break
+  if mapping[:age].empty?
+    inferred_age_idx = infer_missing_age_column(sample_rows, mapping[:gender], used_indices)
+    if inferred_age_idx
+      mapping[:age] << inferred_age_idx
+      used_indices << inferred_age_idx
     end
   end
 
@@ -559,7 +577,8 @@ raw_files.each do |file_path|
   header_idx = rows.find_index { |row| row.any? { |cell| clean_text(cell).include?("שם הקורבן") } }
   next unless header_idx
 
-  header_map = build_header_map(rows[header_idx])
+  sample_rows = rows[(header_idx + 1)..].to_a.select { |row| row.any? { |cell| !clean_text(cell).empty? } }.first(12)
+  header_map = build_header_map(rows[header_idx], sample_rows)
 
   rows[(header_idx + 1)..].to_a.each_with_index do |row, idx|
     source_row_number = header_idx + idx + 2

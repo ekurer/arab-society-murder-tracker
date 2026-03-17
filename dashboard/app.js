@@ -43,8 +43,7 @@ const RAW_DEFAULT_COLUMNS = [
   "locality_name_canonical",
   "weapon_type",
   "solved_status",
-  "source_url_1",
-  "source_url_2"
+  "media_coverage"
 ];
 
 const LANGUAGE_META = {
@@ -417,8 +416,7 @@ const I18N = {
         district_state: "מחוז",
         weapon_type: "כלי הרג",
         solved_status: "סטטוס פענוח",
-        source_url_1: "קישור 1",
-        source_url_2: "קישור 2"
+        media_coverage: "סיקור תקשורתי"
       }
     },
     axis: {
@@ -686,8 +684,7 @@ const I18N = {
         district_state: "اللواء",
         weapon_type: "أداة القتل",
         solved_status: "حالة الحل",
-        source_url_1: "رابط 1",
-        source_url_2: "رابط 2"
+        media_coverage: "تغطية إعلامية"
       }
     },
     axis: {
@@ -956,8 +953,7 @@ const I18N = {
         district_state: "District",
         weapon_type: "Weapon type",
         solved_status: "Solved status",
-        source_url_1: "Link 1",
-        source_url_2: "Link 2"
+        media_coverage: "Media coverage"
       }
     },
     axis: {
@@ -1521,6 +1517,14 @@ function formatDate(isoDate) {
   }).format(date);
 }
 
+function getCurrentJerusalemYear() {
+  const todayInJerusalem = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Asia/Jerusalem",
+    year: "numeric"
+  }).format(new Date());
+  return Number(todayInJerusalem);
+}
+
 function formatPct(value) {
   if (!Number.isFinite(value)) {
     return t("analyses.labels.notAvailable");
@@ -1602,14 +1606,7 @@ function getYearTotals() {
 function buildYearMeta(records) {
   const meta = new Map();
   const latestAvailableYear = Math.max(...records.map((record) => record.year).filter(Number.isFinite));
-  const now = new Date();
-  const todayInJerusalem = new Intl.DateTimeFormat("en-CA", {
-    timeZone: "Asia/Jerusalem",
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit"
-  }).format(now);
-  const currentYear = Number(todayInJerusalem.slice(0, 4));
+  const currentYear = getCurrentJerusalemYear();
 
   records.forEach((record) => {
     if (!Number.isFinite(record.year)) {
@@ -1655,24 +1652,54 @@ function getAvailableYearsFromDatasetYear() {
 }
 
 function getRawRecordsForYear(year) {
+  const isCurrentYear = Number(year) === getCurrentJerusalemYear();
   return state.allRecords
     .filter((record) => String(record.dataset_year) === String(year))
     .sort((a, b) => {
-      const dateCompare = (b.canonicalDate || "").localeCompare(a.canonicalDate || "");
+      const dateCompare = isCurrentYear
+        ? (b.canonicalDate || "").localeCompare(a.canonicalDate || "")
+        : (a.canonicalDate || "").localeCompare(b.canonicalDate || "");
       return dateCompare !== 0 ? dateCompare : Number(a.source_row_number || 0) - Number(b.source_row_number || 0);
     });
 }
 
 function getAllRawColumnsFromDataHeaders() {
   if (state.rawDataColumns.length) {
-    return state.rawDataColumns;
+    const columns = [];
+    let addedMediaCoverage = false;
+    state.rawDataColumns.forEach((columnKey) => {
+      if (columnKey === "source_url_1" || columnKey === "source_url_2") {
+        if (!addedMediaCoverage) {
+          columns.push("media_coverage");
+          addedMediaCoverage = true;
+        }
+        return;
+      }
+      columns.push(columnKey);
+    });
+    return columns;
   }
   if (!state.allRecords.length) {
     return [];
   }
 
   const excluded = new Set(["monthNum", "year", "canonicalDate", "includedInMainTally", "residence_locality"]);
-  return Object.keys(state.allRecords[0]).filter((key) => !excluded.has(key));
+  const columns = [];
+  let addedMediaCoverage = false;
+  Object.keys(state.allRecords[0]).forEach((key) => {
+    if (excluded.has(key)) {
+      return;
+    }
+    if (key === "source_url_1" || key === "source_url_2") {
+      if (!addedMediaCoverage) {
+        columns.push("media_coverage");
+        addedMediaCoverage = true;
+      }
+      return;
+    }
+    columns.push(key);
+  });
+  return columns;
 }
 
 function getRawColumnLabel(columnKey) {
@@ -2220,6 +2247,23 @@ function createSingleSourceLinkCell(url, label) {
   return cell;
 }
 
+function createMediaCoverageCell(record) {
+  const cell = document.createElement("td");
+  const sources = [
+    [record.source_url_1, t("table.link1")],
+    [record.source_url_2, t("table.link2")]
+  ].filter(([url]) => url);
+
+  sources.forEach(([url, label], index) => {
+    if (index > 0) {
+      cell.appendChild(document.createTextNode(" "));
+    }
+    cell.appendChild(createExternalLink(url, label));
+  });
+
+  return cell;
+}
+
 function formatRawCellValue(columnKey, record) {
   switch (columnKey) {
     case "canonicalDate":
@@ -2266,12 +2310,8 @@ function renderRawTable() {
     const row = document.createElement("tr");
     row.appendChild(createTextCell(formatNumber(index + 1)));
     columns.forEach((columnKey) => {
-      if (columnKey === "source_url_1") {
-        row.appendChild(createSingleSourceLinkCell(record.source_url_1, t("table.link1")));
-        return;
-      }
-      if (columnKey === "source_url_2") {
-        row.appendChild(createSingleSourceLinkCell(record.source_url_2, t("table.link2")));
+      if (columnKey === "media_coverage") {
+        row.appendChild(createMediaCoverageCell(record));
         return;
       }
       row.appendChild(createTextCell(formatRawCellValue(columnKey, record)));
