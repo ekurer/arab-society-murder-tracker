@@ -238,6 +238,10 @@ const I18N = {
       localityTrend: "התפתחות לפי שנה",
       coverageWarning: "כיסוי המפה חלקי: {count} רשומות נותרו ללא התאמת יישוב ממופה.",
       partialYear: "{year} היא שנה חלקית עד {date}.",
+      projectionNote:
+        "* הקו האדום המקווקו מציג קצב שנתי משוער לפי המצב כיום: {actual} קורבנות מתחילת {year}, שהם כ-{dailyRate} ליום בממוצע עד {basisDate}, שקולים לכ-{projected} קורבנות בקצב שנתי.",
+      projectionLabel: "אקסטרפולציה",
+      march2026Label: "שאגת הארי",
       mappedOnlyNote: "הגרפים מבוססים על כלל הרשומות המסוננות; המפה עצמה מציגה רק יישובים שמופו."
     },
     compare: {
@@ -506,6 +510,10 @@ const I18N = {
       localityTrend: "التطور حسب السنة",
       coverageWarning: "تغطية الخريطة جزئية: بقيت {count} سجلات بدون مطابقة لبلدة ممسوحة.",
       partialYear: "سنة {year} جزئية حتى {date}.",
+      projectionNote:
+        "* الخط الأحمر المتقطع يعرض وتيرة سنوية مقدّرة وفق الوضع الحالي: {actual} ضحية منذ بداية {year}، أي نحو {dailyRate} يومياً في المتوسط حتى {basisDate}، بما يعادل نحو {projected} ضحية إذا استمرت الوتيرة نفسها حتى نهاية السنة.",
+      projectionLabel: "استقراء",
+      march2026Label: "שאגת הארי",
       mappedOnlyNote: "الرسوم تعتمد على جميع السجلات المصفاة؛ الخريطة تعرض فقط البلدات التي تمت موضعتها."
     },
     compare: {
@@ -775,6 +783,10 @@ const I18N = {
       localityTrend: "Year-by-year trajectory",
       coverageWarning: "Map coverage is partial: {count} records are still unmatched to a mapped locality.",
       partialYear: "{year} is partial through {date}.",
+      projectionNote:
+        "* The dashed red segment shows an annualized pace based on the current situation: {actual} victims since the start of {year}, or about {dailyRate} per day on average through {basisDate}, equivalent to roughly {projected} if that pace continues through year-end.",
+      projectionLabel: "Extrapolation",
+      march2026Label: "שאגת הארי",
       mappedOnlyNote: "Charts use all filtered records; the map itself only shows localities with mapped centroids."
     },
     compare: {
@@ -1061,6 +1073,7 @@ const ui = {
   dashboardClearLocality: document.getElementById("dashboard-clear-locality"),
   dashboardMapLegend: document.getElementById("dashboard-map-legend"),
   dashboardCoverageNote: document.getElementById("dashboard-map-coverage-note"),
+  dashboardYearTrendNote: document.getElementById("chart-year-trend-note"),
   localityDetailPanel: document.getElementById("locality-detail-panel"),
   dashboardTopLocalities: document.getElementById("dashboard-top-localities"),
   compareYearASelect: document.getElementById("compare-year-a-select"),
@@ -1450,7 +1463,7 @@ function normalizeRecord(record) {
   const deathDate = record.death_date_iso || "";
   const canonicalDate = deathDate || eventDate;
   const dateYear = canonicalDate ? Number(canonicalDate.slice(0, 4)) : Number(record.dataset_year);
-  const monthNum = Number(record.month_num) || (canonicalDate ? Number(canonicalDate.slice(5, 7)) : null);
+  const monthNum = canonicalDate ? Number(canonicalDate.slice(5, 7)) : Number(record.month_num) || null;
 
   return {
     ...record,
@@ -1876,13 +1889,44 @@ function computeYearPaceProjection(records, targetYear = TRAJECTORY_YEAR) {
     currentYear === targetYear
       ? Date.UTC(targetYear, currentMonth - 1, currentDay)
       : Date.UTC(targetYear, latestDate.getUTCMonth(), latestDate.getUTCDate());
+  const effectiveDate = new Date(effectiveUtc);
+  const basisIso = Number.isNaN(effectiveDate.getTime()) ? latestIso : effectiveDate.toISOString().slice(0, 10);
 
   const elapsedDays = Math.max(1, Math.floor((effectiveUtc - startOfYearUtc) / MS_PER_DAY) + 1);
   const daysInYear = Math.floor((Date.UTC(targetYear + 1, 0, 1) - startOfYearUtc) / MS_PER_DAY);
   const actualCount = yearRecords.length;
   const projectedCount = Math.max(actualCount, Math.round((actualCount / elapsedDays) * daysInYear));
 
-  return { year: targetYear, actualCount, projectedCount };
+  return {
+    year: targetYear,
+    actualCount,
+    projectedCount,
+    latestObservedIso: latestIso,
+    basisIso,
+    elapsedDays,
+    daysInYear
+  };
+}
+
+function renderYearTrendProjectionNote(projection) {
+  if (!ui.dashboardYearTrendNote) {
+    return;
+  }
+
+  if (!projection) {
+    ui.dashboardYearTrendNote.textContent = "";
+    ui.dashboardYearTrendNote.classList.add("view-hidden");
+    return;
+  }
+
+  ui.dashboardYearTrendNote.textContent = tFormat("dashboard.projectionNote", {
+    actual: formatNumber(projection.actualCount),
+    year: formatYear(projection.year),
+    basisDate: formatDate(projection.basisIso),
+    dailyRate: formatDecimal(projection.actualCount / projection.elapsedDays, 1, 1),
+    projected: formatNumber(projection.projectedCount)
+  });
+  ui.dashboardYearTrendNote.classList.remove("view-hidden");
 }
 
 function computeRamadanAnalysisRows(records = state.mainRecords) {
@@ -2389,12 +2433,12 @@ function getColorForMetric(metric, value, range) {
   const ratio = (value - min) / (max - min);
 
   if (metric === "firearm_share") {
-    return interpolateColor("#f0d6b7", "#c86a4d", ratio);
+    return interpolateColor("#ffd6cc", "#b42318", ratio);
   }
   if (metric === "solved_share") {
-    return interpolateColor("#d8eadf", "#0a6e71", ratio);
+    return interpolateColor("#d9e7ff", "#1d4ed8", ratio);
   }
-  return interpolateColor("#f1d2ae", "#0a6e71", ratio);
+  return interpolateColor("#ffd7c2", "#c2410c", ratio);
 }
 
 function getBubbleRadius(count, maxCount) {
@@ -2474,10 +2518,11 @@ function drawMarkerLayer(mapKey, rows, metric, legendNode, selectedLocalityKey, 
     const radius = getBubbleRadius(row.victims, options.maxCount || maxCount);
     const marker = L.circleMarker([row.locality.lat, row.locality.lon], {
       radius,
-      weight: selected ? 3 : 1.4,
-      color: selected ? "#ffffff" : "rgba(255,255,255,0.85)",
+      weight: selected ? 3.2 : 2.2,
+      color: selected ? "#111827" : "rgba(255,255,255,0.96)",
+      opacity: selected ? 0.98 : 1,
       fillColor: getColorForMetric(metric, row.metricValue, range),
-      fillOpacity: selected ? 0.98 : 0.82
+      fillOpacity: selected ? 0.99 : 0.93
     });
 
     marker.bindTooltip(getMapTooltipHtml(row.locality, row.metrics, row.metricValue, metric), {
@@ -2769,17 +2814,26 @@ function renderYearTrendChart() {
   });
 
   const projection = !state.selectedLocalityKey ? computeYearPaceProjection(records, TRAJECTORY_YEAR) : null;
-  const points = state.years.map((year) => [year, grouped.get(year) || 0]);
+  const years = getChronologicalYears();
+  const points = years.map((year) => [year, grouped.get(year) || 0]);
   const traces = [
     {
       x: points.map((point) => point[0]),
       y: points.map((point) => point[1]),
-      type: "scatter",
-      mode: "lines+markers",
-      line: { color: "#0a6e71", width: 3 },
+      type: "bar",
+      text: points.map((point) => formatNumber(point[1])),
+      textposition: "outside",
+      cliponaxis: false,
+      textfont: {
+        color: "#0f2430",
+        size: 12
+      },
       marker: {
-        size: points.map((point) => (String(point[0]) === String(state.selectedYear) ? 11 : 8)),
-        color: points.map((point) => (String(point[0]) === String(state.selectedYear) ? "#c86a4d" : "#0f2430"))
+        color: points.map((point) => (String(point[0]) === String(state.selectedYear) ? "rgba(200,106,77,0.86)" : "rgba(10,110,113,0.72)")),
+        line: {
+          color: points.map((point) => (String(point[0]) === String(state.selectedYear) ? "#9a3412" : "#07585b")),
+          width: 1.4
+        }
       },
       hovertemplate: `%{x}: %{y}<extra></extra>`
     }
@@ -2790,13 +2844,18 @@ function renderYearTrendChart() {
       x: [projection.year, projection.year],
       y: [projection.actualCount, projection.projectedCount],
       type: "scatter",
-      mode: "lines+markers",
+      mode: "lines+markers+text",
+      text: ["", formatNumber(projection.projectedCount)],
+      textposition: ["top center", "top center"],
+      textfont: { color: "#9a3412", size: 12 },
       line: { color: "#c86a4d", width: 2, dash: "dash" },
       marker: { color: "#c86a4d", size: 7 },
-      hovertemplate: `%{x}: %{y}<extra></extra>`,
+      hovertemplate: `${t("dashboard.projectionLabel")}: %{y}<extra></extra>`,
       showlegend: false
     });
   }
+
+  renderYearTrendProjectionNote(projection);
 
   Plotly.react(
     "chart-year-trend",
@@ -2804,7 +2863,8 @@ function renderYearTrendChart() {
     {
       ...createPlotTheme(),
       xaxis: { title: t("axis.year"), fixedrange: true, automargin: true },
-      yaxis: { title: t("axis.victims"), fixedrange: true, automargin: true, side: isRtlLanguage() ? "right" : "left" },
+      yaxis: { title: t("axis.victims"), fixedrange: true, automargin: true, rangemode: "tozero", side: isRtlLanguage() ? "right" : "left" },
+      bargap: 0.34,
       showlegend: false
     },
     { displayModeBar: false, responsive: true }
@@ -2819,17 +2879,50 @@ function renderMonthlyChart(records) {
     }
   });
 
+  const selectedYear = Number(state.selectedYear);
+  const monthlyAnnotations =
+    selectedYear === 2026 && !state.selectedLocalityKey
+      ? [
+          {
+            x: 3,
+            y: monthly[2][1],
+            text: t("dashboard.march2026Label"),
+            showarrow: true,
+            arrowcolor: "#9a3412",
+            ax: 0,
+            ay: -38,
+            bgcolor: "rgba(255,250,245,0.96)",
+            bordercolor: "rgba(154,52,18,0.34)",
+            borderpad: 5,
+            font: {
+              color: "#9a3412",
+              size: 12
+            }
+          }
+        ]
+      : [];
+
   Plotly.react(
     "chart-monthly",
     [
       {
         x: monthly.map((entry) => entry[0]),
         y: monthly.map((entry) => entry[1]),
-        type: "scatter",
-        mode: "lines+markers",
-        fill: "tozeroy",
-        line: { color: "#184d73", width: 3 },
-        marker: { color: "#0a6e71", size: 7 },
+        type: "bar",
+        text: monthly.map((entry) => formatNumber(entry[1])),
+        textposition: "outside",
+        cliponaxis: false,
+        textfont: {
+          color: "#0f2430",
+          size: 12
+        },
+        marker: {
+          color: "rgba(10,110,113,0.74)",
+          line: {
+            color: "#07585b",
+            width: 1.2
+          }
+        },
         hovertemplate: `%{x}: %{y}<extra></extra>`
       }
     ],
@@ -2843,36 +2936,10 @@ function renderMonthlyChart(records) {
         fixedrange: true,
         automargin: true
       },
-      yaxis: { title: t("axis.victims"), fixedrange: true, automargin: true, side: isRtlLanguage() ? "right" : "left" },
+      yaxis: { title: t("axis.victims"), fixedrange: true, automargin: true, rangemode: "tozero", side: isRtlLanguage() ? "right" : "left" },
+      annotations: monthlyAnnotations,
+      bargap: 0.28,
       showlegend: false
-    },
-    { displayModeBar: false, responsive: true }
-  );
-}
-
-function renderWeaponChart(records) {
-  const grouped = new Map();
-  records.forEach((record) => {
-    const key = (record.weapon_type || "Unknown").toString().trim() || "Unknown";
-    grouped.set(key, (grouped.get(key) || 0) + 1);
-  });
-  const entries = [...grouped.entries()].sort((a, b) => b[1] - a[1]).slice(0, 7);
-
-  Plotly.react(
-    "chart-weapon",
-    [
-      {
-        labels: entries.map((entry) => translateFieldValue("weapon_type", entry[0])),
-        values: entries.map((entry) => entry[1]),
-        type: "pie",
-        hole: 0.48,
-        marker: { colors: ["#0a6e71", "#c86a4d", "#184d73", "#8a684a", "#88986b", "#ba8c4f", "#7a8792"] }
-      }
-    ],
-    {
-      ...createPlotTheme(),
-      margin: { t: 16, r: 10, b: 10, l: 10 },
-      showlegend: true
     },
     { displayModeBar: false, responsive: true }
   );
@@ -2937,7 +3004,6 @@ function renderDashboard() {
   renderYearTrendChart();
   const scopeRecords = getDashboardDetailRecords();
   renderMonthlyChart(scopeRecords);
-  renderWeaponChart(scopeRecords);
   renderGenderChart(scopeRecords);
 }
 
