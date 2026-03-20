@@ -1,10 +1,9 @@
 const DATA_PATHS = {
-  records: ["../data/homicides_normalized.json", "/data/homicides_normalized.json", "./data/homicides_normalized.json"],
-  localitySummary: ["../data/locality_year_summary.json", "/data/locality_year_summary.json", "./data/locality_year_summary.json"],
+  records: ["../data/processed/homicides_normalized.json", "/data/processed/homicides_normalized.json"],
+  localitySummary: ["../data/processed/locality_year_summary.json", "/data/processed/locality_year_summary.json"],
   analysisCountryComparison: [
-    "../data/analysis_country_comparison.json",
-    "/data/analysis_country_comparison.json",
-    "./data/analysis_country_comparison.json"
+    "../data/reference/analysis_country_comparison.json",
+    "/data/reference/analysis_country_comparison.json"
   ]
 };
 const SITE_BASE_URL = "https://ekurer.github.io/arab-society-murder-tracker";

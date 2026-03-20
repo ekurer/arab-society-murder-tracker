@@ -2,14 +2,15 @@
 # frozen_string_literal: true
 
 require "csv"
+require "fileutils"
 require "json"
 require "net/http"
 require "uri"
 require "time"
 
 ROOT = File.expand_path("..", __dir__)
-NORMALIZED_CSV_PATH = File.join(ROOT, "data", "homicides_normalized.csv")
-OUTPUT_PATH = File.join(ROOT, "data", "locality_coordinates.json")
+NORMALIZED_CSV_PATH = File.join(ROOT, "public", "data", "processed", "homicides_normalized.csv")
+OUTPUT_PATH = File.join(ROOT, "public", "data", "reference", "locality_coordinates.json")
 USER_AGENT = "arab-society-murder-tracker/1.0"
 REQUEST_DELAY_SECONDS = 1.1
 
@@ -264,6 +265,7 @@ updated_entries = grouped.keys.sort.each_with_index.map do |canonical_name, inde
   }
 end.compact
 
+FileUtils.mkdir_p(File.dirname(OUTPUT_PATH))
 File.write(OUTPUT_PATH, JSON.pretty_generate(updated_entries))
 
 matched = updated_entries.count { |entry| entry["active"] && entry["lat"] && entry["lon"] }

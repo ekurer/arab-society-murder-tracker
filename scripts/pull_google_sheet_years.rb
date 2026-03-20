@@ -10,7 +10,7 @@ require "set"
 require "uri"
 
 ROOT_DIR = File.expand_path("..", __dir__)
-RAW_DIR = File.join(ROOT_DIR, "raw_csv")
+RAW_DIR = File.join(ROOT_DIR, "data", "raw", "google-sheet")
 SHEET_ID = ENV.fetch("GOOGLE_SHEET_ID", "1AV2XmeezCqSK5IxSHFY3GqRRPEwUix0hv-LoOiPH5DE")
 YEAR_NAME_PATTERN = /\A\d{4}\z/.freeze
 
@@ -87,7 +87,7 @@ seen_payloads = {}
   FileUtils.mv(temp_path, target_path)
   seen_payloads[payload_hash] = year
   fetched << [year, rows.length]
-  puts "Year #{year}: saved raw_csv/#{year}.csv (#{rows.length} rows)"
+  puts "Year #{year}: saved data/raw/google-sheet/#{year}.csv (#{rows.length} rows)"
 end
 
 if fetched.empty?

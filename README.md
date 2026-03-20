@@ -6,6 +6,13 @@ This project turns yearly homicide records from a public Google Sheet into a sin
 
 The goal is to make trends and patterns easy to inspect by year, locality, and key indicators (totals, solve rate, firearm share, and comparisons between years).
 
+## Repo Layout
+
+- `public/`: published GitHub Pages site and browser-consumed data artifacts
+- `public/data/processed/`: normalized CSV/JSON outputs used by the dashboard
+- `public/data/reference/`: reference datasets such as locality coordinates
+- `data/raw/google-sheet/`: yearly raw CSV pulls from the public sheet
+
 ## Run Locally
 
 Prerequisite: Ruby installed.

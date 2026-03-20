@@ -7,9 +7,10 @@ require "date"
 require "fileutils"
 
 ROOT = File.expand_path("..", __dir__)
-RAW_GLOB = File.join(ROOT, "raw_csv", "*.csv")
-OUTPUT_DIR = File.join(ROOT, "data")
-LOCALITY_COORDINATES_PATH = File.join(OUTPUT_DIR, "locality_coordinates.json")
+RAW_GLOB = File.join(ROOT, "data", "raw", "google-sheet", "*.csv")
+PROCESSED_OUTPUT_DIR = File.join(ROOT, "public", "data", "processed")
+REFERENCE_DIR = File.join(ROOT, "public", "data", "reference")
+LOCALITY_COORDINATES_PATH = File.join(REFERENCE_DIR, "locality_coordinates.json")
 
 OUTPUT_HEADERS = [
   "record_uid",
@@ -389,9 +390,9 @@ def normalize_district_state(value)
 end
 
 def infer_month(month_raw, event_date, death_date)
-  month = parse_int(month_raw)
+  month = death_date&.dig(:month)
+  month ||= parse_int(month_raw)
   month ||= event_date&.dig(:month)
-  month ||= death_date&.dig(:month)
   month if month && month.between?(1, 12)
 end
 
@@ -663,27 +664,27 @@ raw_files.each do |file_path|
   end
 end
 
-FileUtils.mkdir_p(OUTPUT_DIR)
+FileUtils.mkdir_p(PROCESSED_OUTPUT_DIR)
 
-normalized_csv_path = File.join(OUTPUT_DIR, "homicides_normalized.csv")
+normalized_csv_path = File.join(PROCESSED_OUTPUT_DIR, "homicides_normalized.csv")
 CSV.open(normalized_csv_path, "w", write_headers: true, headers: OUTPUT_HEADERS) do |csv|
   normalized_rows.each do |row|
     csv << OUTPUT_HEADERS.map { |header| row[header] }
   end
 end
 
-normalized_json_path = File.join(OUTPUT_DIR, "homicides_normalized.json")
+normalized_json_path = File.join(PROCESSED_OUTPUT_DIR, "homicides_normalized.json")
 File.write(normalized_json_path, JSON.pretty_generate(normalized_rows))
 
 year_summary_rows = summarize_years(normalized_rows.select { |row| row["included_in_main_tally"] })
-year_summary_csv_path = File.join(OUTPUT_DIR, "year_summary.csv")
+year_summary_csv_path = File.join(PROCESSED_OUTPUT_DIR, "year_summary.csv")
 CSV.open(year_summary_csv_path, "w", write_headers: true, headers: YEAR_SUMMARY_HEADERS) do |csv|
   year_summary_rows.each do |row|
     csv << YEAR_SUMMARY_HEADERS.map { |header| row[header] }
   end
 end
 
-locality_summary_path = File.join(OUTPUT_DIR, "locality_year_summary.json")
+locality_summary_path = File.join(PROCESSED_OUTPUT_DIR, "locality_year_summary.json")
 File.write(locality_summary_path, JSON.pretty_generate(locality_summary(normalized_rows, locality_reference)))
 
 puts "Normalized #{normalized_rows.length} records from #{raw_files.length} files"
