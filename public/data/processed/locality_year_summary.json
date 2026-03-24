@@ -103,7 +103,7 @@
         },
         "2026": {
           "victims": 3,
-          "share_of_year": 0.041666666666666664,
+          "share_of_year": 0.0410958904109589,
           "firearm_victims": 3,
           "firearm_share": 1.0,
           "solved_victims": 0,
@@ -205,7 +205,7 @@
         },
         "2026": {
           "victims": 5,
-          "share_of_year": 0.06944444444444445,
+          "share_of_year": 0.0684931506849315,
           "firearm_victims": 5,
           "firearm_share": 1.0,
           "solved_victims": 1,
@@ -307,7 +307,7 @@
         },
         "2026": {
           "victims": 5,
-          "share_of_year": 0.06944444444444445,
+          "share_of_year": 0.0684931506849315,
           "firearm_victims": 5,
           "firearm_share": 1.0,
           "solved_victims": 0,
@@ -409,7 +409,7 @@
         },
         "2026": {
           "victims": 2,
-          "share_of_year": 0.027777777777777776,
+          "share_of_year": 0.0273972602739726,
           "firearm_victims": 1,
           "firearm_share": 0.5,
           "solved_victims": 1,
@@ -511,7 +511,7 @@
         },
         "2026": {
           "victims": 3,
-          "share_of_year": 0.041666666666666664,
+          "share_of_year": 0.0410958904109589,
           "firearm_victims": 3,
           "firearm_share": 1.0,
           "solved_victims": 0,
@@ -613,7 +613,7 @@
         },
         "2026": {
           "victims": 4,
-          "share_of_year": 0.05555555555555555,
+          "share_of_year": 0.0547945205479452,
           "firearm_victims": 4,
           "firearm_share": 1.0,
           "solved_victims": 0,
@@ -715,11 +715,11 @@
         },
         "2026": {
           "victims": 3,
-          "share_of_year": 0.041666666666666664,
+          "share_of_year": 0.0410958904109589,
           "firearm_victims": 2,
           "firearm_share": 0.6666666666666666,
-          "solved_victims": 0,
-          "solved_share": 0.0,
+          "solved_victims": 1,
+          "solved_share": 0.3333333333333333,
           "male_victims": 3,
           "female_victims": 0
         }
@@ -797,7 +797,7 @@
         },
         "2026": {
           "victims": 1,
-          "share_of_year": 0.013888888888888888,
+          "share_of_year": 0.0136986301369863,
           "firearm_victims": 1,
           "firearm_share": 1.0,
           "solved_victims": 0,
@@ -889,7 +889,7 @@
         },
         "2026": {
           "victims": 2,
-          "share_of_year": 0.027777777777777776,
+          "share_of_year": 0.0273972602739726,
           "firearm_victims": 2,
           "firearm_share": 1.0,
           "solved_victims": 0,
@@ -1155,7 +1155,7 @@
         },
         "2026": {
           "victims": 2,
-          "share_of_year": 0.027777777777777776,
+          "share_of_year": 0.0273972602739726,
           "firearm_victims": 2,
           "firearm_share": 1.0,
           "solved_victims": 0,
@@ -1442,6 +1442,98 @@
       }
     },
     {
+      "locality_key": "עראבה",
+      "locality_name_he": "עראבה",
+      "locality_name_ar": "",
+      "district_state": "צפון",
+      "geographic_area": "גליל",
+      "lat": 32.8486259,
+      "lon": 35.3358268,
+      "all_years_total": 24,
+      "year_metrics": {
+        "2018": {
+          "victims": 1,
+          "share_of_year": 0.014084507042253521,
+          "firearm_victims": 0,
+          "firearm_share": 0.0,
+          "solved_victims": 1,
+          "solved_share": 1.0,
+          "male_victims": 1,
+          "female_victims": 0
+        },
+        "2020": {
+          "victims": 1,
+          "share_of_year": 0.009900990099009901,
+          "firearm_victims": 0,
+          "firearm_share": 0.0,
+          "solved_victims": 0,
+          "solved_share": 0.0,
+          "male_victims": 0,
+          "female_victims": 1
+        },
+        "2021": {
+          "victims": 1,
+          "share_of_year": 0.0072992700729927005,
+          "firearm_victims": 1,
+          "firearm_share": 1.0,
+          "solved_victims": 0,
+          "solved_share": 0.0,
+          "male_victims": 1,
+          "female_victims": 0
+        },
+        "2022": {
+          "victims": 2,
+          "share_of_year": 0.017094017094017096,
+          "firearm_victims": 2,
+          "firearm_share": 1.0,
+          "solved_victims": 0,
+          "solved_share": 0.0,
+          "male_victims": 2,
+          "female_victims": 0
+        },
+        "2023": {
+          "victims": 2,
+          "share_of_year": 0.00796812749003984,
+          "firearm_victims": 2,
+          "firearm_share": 1.0,
+          "solved_victims": 0,
+          "solved_share": 0.0,
+          "male_victims": 2,
+          "female_victims": 0
+        },
+        "2024": {
+          "victims": 5,
+          "share_of_year": 0.021367521367521368,
+          "firearm_victims": 3,
+          "firearm_share": 0.6,
+          "solved_victims": 1,
+          "solved_share": 0.2,
+          "male_victims": 5,
+          "female_victims": 0
+        },
+        "2025": {
+          "victims": 10,
+          "share_of_year": 0.039525691699604744,
+          "firearm_victims": 8,
+          "firearm_share": 0.8,
+          "solved_victims": 0,
+          "solved_share": 0.0,
+          "male_victims": 9,
+          "female_victims": 1
+        },
+        "2026": {
+          "victims": 2,
+          "share_of_year": 0.0273972602739726,
+          "firearm_victims": 2,
+          "firearm_share": 1.0,
+          "solved_victims": 1,
+          "solved_share": 0.5,
+          "male_victims": 2,
+          "female_victims": 0
+        }
+      }
+    },
+    {
       "locality_key": "גלגוליה",
       "locality_name_he": "ג'לג'וליה",
       "locality_name_ar": "",
@@ -1585,104 +1677,12 @@
         },
         "2026": {
           "victims": 3,
-          "share_of_year": 0.041666666666666664,
+          "share_of_year": 0.0410958904109589,
           "firearm_victims": 3,
           "firearm_share": 1.0,
           "solved_victims": 0,
           "solved_share": 0.0,
           "male_victims": 3,
-          "female_victims": 0
-        }
-      }
-    },
-    {
-      "locality_key": "עראבה",
-      "locality_name_he": "עראבה",
-      "locality_name_ar": "",
-      "district_state": "צפון",
-      "geographic_area": "גליל",
-      "lat": 32.8486259,
-      "lon": 35.3358268,
-      "all_years_total": 23,
-      "year_metrics": {
-        "2018": {
-          "victims": 1,
-          "share_of_year": 0.014084507042253521,
-          "firearm_victims": 0,
-          "firearm_share": 0.0,
-          "solved_victims": 1,
-          "solved_share": 1.0,
-          "male_victims": 1,
-          "female_victims": 0
-        },
-        "2020": {
-          "victims": 1,
-          "share_of_year": 0.009900990099009901,
-          "firearm_victims": 0,
-          "firearm_share": 0.0,
-          "solved_victims": 0,
-          "solved_share": 0.0,
-          "male_victims": 0,
-          "female_victims": 1
-        },
-        "2021": {
-          "victims": 1,
-          "share_of_year": 0.0072992700729927005,
-          "firearm_victims": 1,
-          "firearm_share": 1.0,
-          "solved_victims": 0,
-          "solved_share": 0.0,
-          "male_victims": 1,
-          "female_victims": 0
-        },
-        "2022": {
-          "victims": 2,
-          "share_of_year": 0.017094017094017096,
-          "firearm_victims": 2,
-          "firearm_share": 1.0,
-          "solved_victims": 0,
-          "solved_share": 0.0,
-          "male_victims": 2,
-          "female_victims": 0
-        },
-        "2023": {
-          "victims": 2,
-          "share_of_year": 0.00796812749003984,
-          "firearm_victims": 2,
-          "firearm_share": 1.0,
-          "solved_victims": 0,
-          "solved_share": 0.0,
-          "male_victims": 2,
-          "female_victims": 0
-        },
-        "2024": {
-          "victims": 5,
-          "share_of_year": 0.021367521367521368,
-          "firearm_victims": 3,
-          "firearm_share": 0.6,
-          "solved_victims": 1,
-          "solved_share": 0.2,
-          "male_victims": 5,
-          "female_victims": 0
-        },
-        "2025": {
-          "victims": 10,
-          "share_of_year": 0.039525691699604744,
-          "firearm_victims": 8,
-          "firearm_share": 0.8,
-          "solved_victims": 0,
-          "solved_share": 0.0,
-          "male_victims": 9,
-          "female_victims": 1
-        },
-        "2026": {
-          "victims": 1,
-          "share_of_year": 0.013888888888888888,
-          "firearm_victims": 1,
-          "firearm_share": 1.0,
-          "solved_victims": 1,
-          "solved_share": 1.0,
-          "male_victims": 1,
           "female_victims": 0
         }
       }
@@ -1923,7 +1923,7 @@
         },
         "2026": {
           "victims": 3,
-          "share_of_year": 0.041666666666666664,
+          "share_of_year": 0.0410958904109589,
           "firearm_victims": 3,
           "firearm_share": 1.0,
           "solved_victims": 0,
@@ -2047,7 +2047,7 @@
         },
         "2026": {
           "victims": 2,
-          "share_of_year": 0.027777777777777776,
+          "share_of_year": 0.0273972602739726,
           "firearm_victims": 2,
           "firearm_share": 1.0,
           "solved_victims": 0,
@@ -2293,7 +2293,7 @@
         },
         "2026": {
           "victims": 1,
-          "share_of_year": 0.013888888888888888,
+          "share_of_year": 0.0136986301369863,
           "firearm_victims": 1,
           "firearm_share": 1.0,
           "solved_victims": 0,
@@ -2365,7 +2365,7 @@
         },
         "2026": {
           "victims": 1,
-          "share_of_year": 0.013888888888888888,
+          "share_of_year": 0.0136986301369863,
           "firearm_victims": 1,
           "firearm_share": 1.0,
           "solved_victims": 0,
@@ -2437,7 +2437,7 @@
         },
         "2026": {
           "victims": 1,
-          "share_of_year": 0.013888888888888888,
+          "share_of_year": 0.0136986301369863,
           "firearm_victims": 1,
           "firearm_share": 1.0,
           "solved_victims": 0,
@@ -2539,7 +2539,7 @@
         },
         "2026": {
           "victims": 3,
-          "share_of_year": 0.041666666666666664,
+          "share_of_year": 0.0410958904109589,
           "firearm_victims": 3,
           "firearm_share": 1.0,
           "solved_victims": 0,
@@ -2601,7 +2601,7 @@
         },
         "2026": {
           "victims": 3,
-          "share_of_year": 0.041666666666666664,
+          "share_of_year": 0.0410958904109589,
           "firearm_victims": 3,
           "firearm_share": 1.0,
           "solved_victims": 0,
@@ -2745,7 +2745,7 @@
         },
         "2026": {
           "victims": 1,
-          "share_of_year": 0.013888888888888888,
+          "share_of_year": 0.0136986301369863,
           "firearm_victims": 1,
           "firearm_share": 1.0,
           "solved_victims": 0,
@@ -2797,7 +2797,7 @@
         },
         "2026": {
           "victims": 2,
-          "share_of_year": 0.027777777777777776,
+          "share_of_year": 0.0273972602739726,
           "firearm_victims": 2,
           "firearm_share": 1.0,
           "solved_victims": 0,
@@ -2869,7 +2869,7 @@
         },
         "2026": {
           "victims": 1,
-          "share_of_year": 0.013888888888888888,
+          "share_of_year": 0.0136986301369863,
           "firearm_victims": 1,
           "firearm_share": 1.0,
           "solved_victims": 0,
@@ -2941,7 +2941,7 @@
         },
         "2026": {
           "victims": 1,
-          "share_of_year": 0.013888888888888888,
+          "share_of_year": 0.0136986301369863,
           "firearm_victims": 1,
           "firearm_share": 1.0,
           "solved_victims": 0,
@@ -3395,7 +3395,7 @@
         },
         "2026": {
           "victims": 1,
-          "share_of_year": 0.013888888888888888,
+          "share_of_year": 0.0136986301369863,
           "firearm_victims": 1,
           "firearm_share": 1.0,
           "solved_victims": 0,
@@ -3539,7 +3539,7 @@
         },
         "2026": {
           "victims": 2,
-          "share_of_year": 0.027777777777777776,
+          "share_of_year": 0.0273972602739726,
           "firearm_victims": 2,
           "firearm_share": 1.0,
           "solved_victims": 0,
@@ -3601,7 +3601,7 @@
         },
         "2026": {
           "victims": 1,
-          "share_of_year": 0.013888888888888888,
+          "share_of_year": 0.0136986301369863,
           "firearm_victims": 1,
           "firearm_share": 1.0,
           "solved_victims": 0,
@@ -3695,7 +3695,7 @@
         },
         "2026": {
           "victims": 1,
-          "share_of_year": 0.013888888888888888,
+          "share_of_year": 0.0136986301369863,
           "firearm_victims": 1,
           "firearm_share": 1.0,
           "solved_victims": 0,
@@ -3757,7 +3757,7 @@
         },
         "2026": {
           "victims": 1,
-          "share_of_year": 0.013888888888888888,
+          "share_of_year": 0.0136986301369863,
           "firearm_victims": 1,
           "firearm_share": 1.0,
           "solved_victims": 0,
@@ -3819,7 +3819,7 @@
         },
         "2026": {
           "victims": 1,
-          "share_of_year": 0.013888888888888888,
+          "share_of_year": 0.0136986301369863,
           "firearm_victims": 1,
           "firearm_share": 1.0,
           "solved_victims": 0,
@@ -4113,7 +4113,7 @@
         },
         "2026": {
           "victims": 3,
-          "share_of_year": 0.041666666666666664,
+          "share_of_year": 0.0410958904109589,
           "firearm_victims": 3,
           "firearm_share": 1.0,
           "solved_victims": 0,
@@ -4165,7 +4165,7 @@
         },
         "2026": {
           "victims": 1,
-          "share_of_year": 0.013888888888888888,
+          "share_of_year": 0.0136986301369863,
           "firearm_victims": 1,
           "firearm_share": 1.0,
           "solved_victims": 0,
@@ -4353,7 +4353,7 @@
         },
         "2026": {
           "victims": 1,
-          "share_of_year": 0.013888888888888888,
+          "share_of_year": 0.0136986301369863,
           "firearm_victims": 1,
           "firearm_share": 1.0,
           "solved_victims": 1,
@@ -4671,7 +4671,7 @@
       "year_metrics": {
         "2026": {
           "victims": 3,
-          "share_of_year": 0.041666666666666664,
+          "share_of_year": 0.0410958904109589,
           "firearm_victims": 3,
           "firearm_share": 1.0,
           "solved_victims": 0,
@@ -4981,7 +4981,7 @@
         },
         "2026": {
           "victims": 1,
-          "share_of_year": 0.013888888888888888,
+          "share_of_year": 0.0136986301369863,
           "firearm_victims": 1,
           "firearm_share": 1.0,
           "solved_victims": 0,
@@ -5045,7 +5045,7 @@
         },
         "2026": {
           "victims": 1,
-          "share_of_year": 0.013888888888888888,
+          "share_of_year": 0.0136986301369863,
           "firearm_victims": 1,
           "firearm_share": 1.0,
           "solved_victims": 0,
@@ -6001,7 +6001,7 @@
       "year_metrics": {
         "2026": {
           "victims": 1,
-          "share_of_year": 0.013888888888888888,
+          "share_of_year": 0.0136986301369863,
           "firearm_victims": 1,
           "firearm_share": 1.0,
           "solved_victims": 0,
