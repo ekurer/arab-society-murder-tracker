@@ -1678,8 +1678,8 @@
         "2026": {
           "victims": 3,
           "share_of_year": 0.0410958904109589,
-          "firearm_victims": 3,
-          "firearm_share": 1.0,
+          "firearm_victims": 2,
+          "firearm_share": 0.6666666666666666,
           "solved_victims": 0,
           "solved_share": 0.0,
           "male_victims": 3,
@@ -2746,8 +2746,8 @@
         "2026": {
           "victims": 1,
           "share_of_year": 0.0136986301369863,
-          "firearm_victims": 1,
-          "firearm_share": 1.0,
+          "firearm_victims": 0,
+          "firearm_share": 0.0,
           "solved_victims": 0,
           "solved_share": 0.0,
           "male_victims": 1,
@@ -3602,8 +3602,8 @@
         "2026": {
           "victims": 1,
           "share_of_year": 0.0136986301369863,
-          "firearm_victims": 1,
-          "firearm_share": 1.0,
+          "firearm_victims": 0,
+          "firearm_share": 0.0,
           "solved_victims": 0,
           "solved_share": 0.0,
           "male_victims": 1,
