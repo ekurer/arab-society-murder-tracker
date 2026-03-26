@@ -2147,6 +2147,19 @@ function getChronologicalYears() {
   return state.years.slice().sort((a, b) => a - b);
 }
 
+function setSelectedYear(nextYear) {
+  const normalizedYear = String(nextYear || ALL_FILTER_VALUE);
+  if (normalizedYear !== ALL_FILTER_VALUE && !state.years.includes(Number(normalizedYear))) {
+    return;
+  }
+  if (String(state.selectedYear) === normalizedYear) {
+    return;
+  }
+
+  state.selectedYear = normalizedYear;
+  render();
+}
+
 function syncYearStepperButtons() {
   const years = getChronologicalYears().map((year) => String(year));
   const selected = String(state.selectedYear);
@@ -2158,8 +2171,8 @@ function syncYearStepperButtons() {
 }
 
 function syncYearStepperDirection() {
-  ui.yearPrev.textContent = isRtlLanguage() ? "\u203a" : "\u2039";
-  ui.yearNext.textContent = isRtlLanguage() ? "\u2039" : "\u203a";
+  ui.yearPrev.textContent = "\u2039";
+  ui.yearNext.textContent = "\u203a";
 }
 
 function renderYearFilterControl() {
@@ -2199,8 +2212,25 @@ function shiftSelectedYear(direction) {
     return;
   }
 
-  state.selectedYear = years[nextIndex];
-  render();
+  setSelectedYear(years[nextIndex]);
+}
+
+function bindYearTrendChartInteractions(chartNode) {
+  if (!chartNode || chartNode.dataset.yearClickBound === "true" || typeof chartNode.on !== "function") {
+    return;
+  }
+
+  chartNode.on("plotly_click", (event) => {
+    const year = event?.points?.[0]?.x;
+    if (year === undefined || year === null) {
+      return;
+    }
+
+    setSelectedYear(year);
+  });
+
+  chartNode.dataset.yearClickBound = "true";
+  chartNode.style.cursor = "pointer";
 }
 
 function renderMetricSelect(selectNode, selectedMetric) {
@@ -2856,18 +2886,23 @@ function renderYearTrendChart() {
 
   renderYearTrendProjectionNote(projection);
 
-  Plotly.react(
-    "chart-year-trend",
-    traces,
-    {
-      ...createPlotTheme(),
-      xaxis: { title: t("axis.year"), fixedrange: true, automargin: true },
-      yaxis: { title: t("axis.victims"), fixedrange: true, automargin: true, rangemode: "tozero", side: isRtlLanguage() ? "right" : "left" },
-      bargap: 0.34,
-      showlegend: false
-    },
-    { displayModeBar: false, responsive: true }
-  );
+  const chartNode = document.getElementById("chart-year-trend");
+  Promise.resolve(
+    Plotly.react(
+      chartNode,
+      traces,
+      {
+        ...createPlotTheme(),
+        xaxis: { title: t("axis.year"), fixedrange: true, automargin: true },
+        yaxis: { title: t("axis.victims"), fixedrange: true, automargin: true, rangemode: "tozero", side: isRtlLanguage() ? "right" : "left" },
+        bargap: 0.34,
+        showlegend: false
+      },
+      { displayModeBar: false, responsive: true }
+    )
+  ).then(() => {
+    bindYearTrendChartInteractions(chartNode);
+  });
 }
 
 function renderMonthlyChart(records) {
@@ -3766,8 +3801,7 @@ function render() {
 
 function setupEvents() {
   ui.yearSelect.addEventListener("change", (event) => {
-    state.selectedYear = event.target.value || ALL_FILTER_VALUE;
-    render();
+    setSelectedYear(event.target.value || ALL_FILTER_VALUE);
   });
 
   ui.yearPrev.addEventListener("click", () => {
