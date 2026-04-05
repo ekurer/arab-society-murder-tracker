@@ -45,6 +45,18 @@ const RAW_DEFAULT_COLUMNS = [
   "media_coverage"
 ];
 
+const THEME_COLORS = {
+  ink: "#171411",
+  accent: "#214c52",
+  accentStrong: "#17373c",
+  accentBar: "rgba(33,76,82,0.78)",
+  warm: "#8b3323",
+  warmBar: "rgba(139,51,35,0.84)",
+  cool: "#435c87",
+  muted: "#8a7a65",
+  paper: "rgba(251,248,242,0.96)"
+};
+
 const LANGUAGE_META = {
   he: { locale: "he-IL", dir: "rtl", ogLocale: "he_IL" },
   ar: { locale: "ar", dir: "rtl", ogLocale: "ar_AR" },
@@ -1421,7 +1433,7 @@ function createPlotTheme() {
     plot_bgcolor: "rgba(0,0,0,0)",
     font: {
       family: isRtlLanguage() ? "Heebo, sans-serif" : "IBM Plex Sans, sans-serif",
-      color: "#0f2430",
+      color: THEME_COLORS.ink,
       size: 12
     },
     margin: {
@@ -2462,12 +2474,22 @@ function getColorForMetric(metric, value, range) {
   const ratio = (value - min) / (max - min);
 
   if (metric === "firearm_share") {
-    return interpolateColor("#ffd6cc", "#b42318", ratio);
+    return interpolateColor("#f1d8d2", THEME_COLORS.warm, ratio);
   }
   if (metric === "solved_share") {
-    return interpolateColor("#d9e7ff", "#1d4ed8", ratio);
+    return interpolateColor("#dbe3ef", THEME_COLORS.cool, ratio);
   }
-  return interpolateColor("#ffd7c2", "#c2410c", ratio);
+  return interpolateColor("#ddd6ca", THEME_COLORS.accent, ratio);
+}
+
+function getMetricGradient(metric) {
+  if (metric === "firearm_share") {
+    return "linear-gradient(90deg, #f1d8d2 0%, #8b3323 100%)";
+  }
+  if (metric === "solved_share") {
+    return "linear-gradient(90deg, #dbe3ef 0%, #435c87 100%)";
+  }
+  return "linear-gradient(90deg, #ddd6ca 0%, #214c52 100%)";
 }
 
 function getBubbleRadius(count, maxCount) {
@@ -2503,7 +2525,7 @@ function buildMapLegend(container, rows, metric, maxCount) {
       <span>${formatNumber(mediumCount)}</span>
       <span>${formatNumber(maxCount || 1)}</span>
     </div>
-    <div class="map-legend-gradient"></div>
+    <div class="map-legend-gradient" style="background:${getMetricGradient(metric)};"></div>
     <div class="map-legend-labels">
       <span>${getMetricValueForDisplay(metric, range.min)}</span>
       <span>${getMetricValueForDisplay(metric, range.max)}</span>
@@ -2548,7 +2570,7 @@ function drawMarkerLayer(mapKey, rows, metric, legendNode, selectedLocalityKey, 
     const marker = L.circleMarker([row.locality.lat, row.locality.lon], {
       radius,
       weight: selected ? 3.2 : 2.2,
-      color: selected ? "#111827" : "rgba(255,255,255,0.96)",
+      color: selected ? THEME_COLORS.ink : "rgba(255,255,255,0.96)",
       opacity: selected ? 0.98 : 1,
       fillColor: getColorForMetric(metric, row.metricValue, range),
       fillOpacity: selected ? 0.99 : 0.93
@@ -2757,8 +2779,8 @@ function renderLocalityDetailPanel() {
         y: trendSeries.map((point) => point.victims),
         type: "scatter",
         mode: "lines+markers",
-        line: { color: "#0a6e71", width: 3 },
-        marker: { color: "#c86a4d", size: 8 },
+        line: { color: THEME_COLORS.accent, width: 3 },
+        marker: { color: THEME_COLORS.warm, size: 8 },
         hovertemplate: `%{x}: %{y}<extra></extra>`
       }
     ],
@@ -2854,13 +2876,13 @@ function renderYearTrendChart() {
       textposition: "outside",
       cliponaxis: false,
       textfont: {
-        color: "#0f2430",
+        color: THEME_COLORS.ink,
         size: 12
       },
       marker: {
-        color: points.map((point) => (String(point[0]) === String(state.selectedYear) ? "rgba(200,106,77,0.86)" : "rgba(10,110,113,0.72)")),
+        color: points.map((point) => (String(point[0]) === String(state.selectedYear) ? THEME_COLORS.warmBar : THEME_COLORS.accentBar)),
         line: {
-          color: points.map((point) => (String(point[0]) === String(state.selectedYear) ? "#9a3412" : "#07585b")),
+          color: points.map((point) => (String(point[0]) === String(state.selectedYear) ? THEME_COLORS.warm : THEME_COLORS.accentStrong)),
           width: 1.4
         }
       },
@@ -2876,9 +2898,9 @@ function renderYearTrendChart() {
       mode: "lines+markers+text",
       text: ["", formatNumber(projection.projectedCount)],
       textposition: ["top center", "top center"],
-      textfont: { color: "#9a3412", size: 12 },
-      line: { color: "#c86a4d", width: 2, dash: "dash" },
-      marker: { color: "#c86a4d", size: 7 },
+      textfont: { color: THEME_COLORS.warm, size: 12 },
+      line: { color: THEME_COLORS.warm, width: 2, dash: "dash" },
+      marker: { color: THEME_COLORS.warm, size: 7 },
       hovertemplate: `${t("dashboard.projectionLabel")}: %{y}<extra></extra>`,
       showlegend: false
     });
@@ -2922,14 +2944,14 @@ function renderMonthlyChart(records) {
             y: monthly[2][1],
             text: t("dashboard.march2026Label"),
             showarrow: true,
-            arrowcolor: "#9a3412",
+            arrowcolor: THEME_COLORS.warm,
             ax: 0,
             ay: -38,
-            bgcolor: "rgba(255,250,245,0.96)",
-            bordercolor: "rgba(154,52,18,0.34)",
+            bgcolor: THEME_COLORS.paper,
+            bordercolor: "rgba(139,51,35,0.34)",
             borderpad: 5,
             font: {
-              color: "#9a3412",
+              color: THEME_COLORS.warm,
               size: 12
             }
           }
@@ -2947,13 +2969,13 @@ function renderMonthlyChart(records) {
         textposition: "outside",
         cliponaxis: false,
         textfont: {
-          color: "#0f2430",
+          color: THEME_COLORS.ink,
           size: 12
         },
         marker: {
-          color: "rgba(10,110,113,0.74)",
+          color: THEME_COLORS.accentBar,
           line: {
-            color: "#07585b",
+            color: THEME_COLORS.accentStrong,
             width: 1.2
           }
         },
@@ -2994,7 +3016,7 @@ function renderGenderChart(records) {
           values: entries.map((entry) => entry[1]),
           type: "pie",
           hole: 0.44,
-          marker: { colors: ["#184d73", "#c86a4d"] },
+          marker: { colors: [THEME_COLORS.cool, THEME_COLORS.warm] },
           hovertemplate: `%{label}: %{value}<extra></extra>`
         }
       ],
@@ -3012,7 +3034,7 @@ function renderGenderChart(records) {
     y: state.years.map((year) => records.filter((record) => record.year === year && record.gender === gender).length),
     type: "bar",
     name: translateEnum("gender", gender),
-    marker: { color: gender === "Male" ? "#184d73" : "#c86a4d" }
+    marker: { color: gender === "Male" ? THEME_COLORS.cool : THEME_COLORS.warm }
   }));
 
   Plotly.react(
@@ -3213,8 +3235,8 @@ function renderCompareMonthlyChart() {
         type: "scatter",
         mode: "lines+markers",
         name: formatYear(state.compareYearA),
-        line: { color: "#184d73", width: 3 },
-        marker: { color: "#184d73", size: 7 }
+        line: { color: THEME_COLORS.cool, width: 3 },
+        marker: { color: THEME_COLORS.cool, size: 7 }
       },
       {
         x: monthlyB.map((entry) => entry[0]),
@@ -3222,8 +3244,8 @@ function renderCompareMonthlyChart() {
         type: "scatter",
         mode: "lines+markers",
         name: formatYear(state.compareYearB),
-        line: { color: "#c86a4d", width: 3 },
-        marker: { color: "#c86a4d", size: 7 }
+        line: { color: THEME_COLORS.warm, width: 3 },
+        marker: { color: THEME_COLORS.warm, size: 7 }
       }
     ],
     {
@@ -3253,7 +3275,7 @@ function renderCompareDeltaChart(rows) {
         x: topRows.map((row) => row.delta),
         type: "bar",
         orientation: "h",
-        marker: { color: topRows.map((row) => (row.delta >= 0 ? "#c86a4d" : "#0a6e71")) },
+        marker: { color: topRows.map((row) => (row.delta >= 0 ? THEME_COLORS.warm : THEME_COLORS.accent)) },
         hovertemplate: "%{y}: %{x:+d}<extra></extra>"
       }
     ],
@@ -3361,7 +3383,7 @@ function renderRamadanAnalysisKpis(rows) {
 function renderRamadanNominalChart(rows) {
   Plotly.react(
     "chart-ramadan-nominal",
-    [{ x: rows.map((row) => row.year), y: rows.map((row) => row.ramadanVictims), type: "bar", marker: { color: "#0a6e71" } }],
+    [{ x: rows.map((row) => row.year), y: rows.map((row) => row.ramadanVictims), type: "bar", marker: { color: THEME_COLORS.accent } }],
     {
       ...createPlotTheme(),
       xaxis: { title: t("axis.year"), fixedrange: true, automargin: true },
@@ -3380,8 +3402,8 @@ function renderRamadanShareChart(rows) {
         y: rows.map((row) => row.shareOfYear),
         type: "scatter",
         mode: "lines+markers",
-        line: { color: "#c86a4d", width: 3 },
-        marker: { color: "#184d73", size: 8 }
+        line: { color: THEME_COLORS.warm, width: 3 },
+        marker: { color: THEME_COLORS.cool, size: 8 }
       }
     ],
     {
@@ -3402,12 +3424,12 @@ function renderRamadanShareChart(rows) {
 function renderRamadanRateRatioChart(rows) {
   Plotly.react(
     "chart-ramadan-rate-ratio",
-    [{ x: rows.map((row) => row.year), y: rows.map((row) => row.rateRatio), type: "bar", marker: { color: "#184d73" } }],
+    [{ x: rows.map((row) => row.year), y: rows.map((row) => row.rateRatio), type: "bar", marker: { color: THEME_COLORS.cool } }],
     {
       ...createPlotTheme(),
       xaxis: { title: t("axis.year"), fixedrange: true, automargin: true },
       yaxis: { title: t("axis.rateRatio"), fixedrange: true, automargin: true, side: isRtlLanguage() ? "right" : "left" },
-      shapes: [{ type: "line", xref: "paper", yref: "y", x0: 0, x1: 1, y0: 1, y1: 1, line: { color: "#8a684a", dash: "dot" } }]
+      shapes: [{ type: "line", xref: "paper", yref: "y", x0: 0, x1: 1, y0: 1, y1: 1, line: { color: THEME_COLORS.muted, dash: "dot" } }]
     },
     { displayModeBar: false, responsive: true }
   );
@@ -3421,14 +3443,14 @@ function renderRamadanExcessChart(rows) {
         x: rows.map((row) => row.year),
         y: rows.map((row) => row.excessVictims),
         type: "bar",
-        marker: { color: rows.map((row) => (row.excessVictims >= 0 ? "#c86a4d" : "#0a6e71")) }
+        marker: { color: rows.map((row) => (row.excessVictims >= 0 ? THEME_COLORS.warm : THEME_COLORS.accent)) }
       }
     ],
     {
       ...createPlotTheme(),
       xaxis: { title: t("axis.year"), fixedrange: true, automargin: true },
       yaxis: { title: t("axis.excessVictims"), fixedrange: true, automargin: true, side: isRtlLanguage() ? "right" : "left" },
-      shapes: [{ type: "line", xref: "paper", yref: "y", x0: 0, x1: 1, y0: 0, y1: 0, line: { color: "#8a684a", dash: "dot" } }]
+      shapes: [{ type: "line", xref: "paper", yref: "y", x0: 0, x1: 1, y0: 0, y1: 0, line: { color: THEME_COLORS.muted, dash: "dot" } }]
     },
     { displayModeBar: false, responsive: true }
   );
@@ -3568,7 +3590,7 @@ function renderCountryComparisonChart(snapshot) {
         type: "bar",
         orientation: "h",
         marker: {
-          color: snapshot.rows.map((row) => (row.isArabSociety ? "#c86a4d" : "#0a6e71"))
+          color: snapshot.rows.map((row) => (row.isArabSociety ? THEME_COLORS.warm : THEME_COLORS.accent))
         },
         hovertemplate: "%{y}<br>%{x:.2f}<extra></extra>"
       }

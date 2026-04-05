@@ -9,7 +9,7 @@
       content="صفحة هبوط ولوحة متابعة تفاعلية لضحايا القتل في المجتمع العربي في إسرائيل، مع خريطة حسب البلدة، مقارنة بين السنوات، تحليلات رمضان وأسماء الضحايا."
     />
     <meta name="robots" content="index,follow,max-image-preview:large" />
-    <meta name="theme-color" content="#f3eee5" />
+    <meta name="theme-color" content="#f4efe6" />
     <link rel="icon" href="../favicon.ico" sizes="any" />
     <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png" />
@@ -60,7 +60,7 @@
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Sora:wght@400;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="../site.css" />
   </head>
   <body>
@@ -87,17 +87,36 @@
           <p class="eyebrow">2018-2026 | قاعدة مفتوحة</p>
           <h1>لوحة متابعة ضحايا القتل في المجتمع العربي في إسرائيل</h1>
           <p class="lede">
-            هذه صفحة هبوط قابلة للفهرسة في البحث، تقود إلى لوحة متابعة تجمع بيانات ضحايا القتل في المجتمع العربي في إسرائيل حسب
-            السنة والبلدة والجنس ونوع السلاح ووضع الحل.
+            تجمع لوحة المتابعة بيانات ضحايا القتل في المجتمع العربي في إسرائيل حسب السنة والبلدة والجنس ونوع السلاح ووضع
+            الحل.
           </p>
           <div class="cta-row">
             <a class="button-primary" href="../dashboard/?lang=ar">الدخول إلى اللوحة</a>
             <a class="button-secondary" href="../dashboard/?lang=ar&view=raw">أسماء الضحايا</a>
             <a class="button-secondary" href="https://github.com/ekurer/arab-society-murder-tracker">البيانات والكود</a>
           </div>
+          <dl class="briefing-strip" aria-label="ملخص البيانات">
+            <div class="briefing-item">
+              <dt>التغطية</dt>
+              <dd>2018-2026</dd>
+            </div>
+            <div class="briefing-item">
+              <dt>التحديث</dt>
+              <dd>كل 24 ساعة</dd>
+            </div>
+            <div class="briefing-item">
+              <dt>أساس الخريطة</dt>
+              <dd>بلدة السكن</dd>
+            </div>
+            <div class="briefing-item">
+              <dt>الصيغ</dt>
+              <dd>لوحة، JSON، CSV</dd>
+            </div>
+          </dl>
         </div>
 
         <aside class="side-card">
+          <p class="side-kicker">إحاطة سريعة</p>
           <h2>ماذا يتضمن الموقع</h2>
           <ul class="feature-list">
             <li>خريطة حسب بلدة السكن وليس حسب نقطة الحدث.</li>
@@ -111,7 +130,7 @@
     </header>
 
     <main class="page-shell section-stack">
-      <section class="card-grid">
+      <section class="card-grid briefing-grid">
         <div class="content-card">
           <h2>ما نوع البحث الذي تستهدفه الصفحة</h2>
           <p>
@@ -137,7 +156,7 @@
         </div>
       </section>
 
-      <section class="split-card">
+      <section class="split-card navigation-card">
         <div>
           <p class="eyebrow">تنقل سريع</p>
           <h2>من أين يفضل البدء</h2>

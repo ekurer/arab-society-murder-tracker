@@ -9,7 +9,7 @@
       content="עמוד מרכזי על רצח בחברה הערבית בישראל: מספר נרצחים לפי שנה ויישוב, דשבורד אינטראקטיבי, שמות הנרצחים, מגמות, מפה ונתונים פתוחים."
     />
     <meta name="robots" content="index,follow,max-image-preview:large" />
-    <meta name="theme-color" content="#f3eee5" />
+    <meta name="theme-color" content="#f4efe6" />
     <link rel="icon" href="./favicon.ico" sizes="any" />
     <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png" />
@@ -139,7 +139,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Sora:wght@400;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./site.css" />
@@ -168,17 +168,36 @@
           <p class="eyebrow">2018-2026 | מתעדכן כל 24 שעות</p>
           <h1>רצח בחברה הערבית בישראל: דשבורד נתונים, מפה לפי יישוב ושמות הנרצחים</h1>
           <p class="lede">
-            זהו העמוד המרכזי למי שמחפש מידע על רצח בחברה הערבית בישראל. האתר מרכז מספר נרצחים לפי שנה ויישוב, שמות הנרצחים,
-            השוואת שנים, פילוח לפי מגדר וסוג כלי הרג, וגישה ישירה לדשבורד אינטראקטיבי ולקבצי נתונים פתוחים.
+            האתר מרכז מספר נרצחים לפי שנה ויישוב, שמות הנרצחים, השוואת שנים, פילוח לפי מגדר וסוג כלי הרג, וגישה ישירה
+            לדשבורד אינטראקטיבי ולקבצי נתונים פתוחים.
           </p>
           <div class="cta-row">
             <a class="button-primary" href="./dashboard/?lang=he">כניסה לדשבורד</a>
             <a class="button-secondary" href="./dashboard/?lang=he&view=raw">שמות הנרצחים</a>
             <a class="button-secondary" href="./dashboard/?lang=he&view=compare">השוואת שנים</a>
           </div>
+          <dl class="briefing-strip" aria-label="תקציר נתונים">
+            <div class="briefing-item">
+              <dt>כיסוי</dt>
+              <dd>2018-2026</dd>
+            </div>
+            <div class="briefing-item">
+              <dt>קצב עדכון</dt>
+              <dd>כל 24 שעות</dd>
+            </div>
+            <div class="briefing-item">
+              <dt>בסיס מפה</dt>
+              <dd>יישוב מגורים</dd>
+            </div>
+            <div class="briefing-item">
+              <dt>פורמטים</dt>
+              <dd>דשבורד, JSON, CSV</dd>
+            </div>
+          </dl>
         </div>
 
         <aside class="side-card">
+          <p class="side-kicker">תדריך פתיחה</p>
           <h2>מה תמצאו כאן</h2>
           <ul class="feature-list">
             <li>מספר נרצחים בחברה הערבית בישראל לפי שנה.</li>
@@ -192,7 +211,7 @@
     </header>
 
     <main class="page-shell section-stack">
-      <section class="card-grid" aria-labelledby="search-intents-title">
+      <section class="card-grid briefing-grid" aria-labelledby="search-intents-title">
         <div class="content-card">
           <h2 id="search-intents-title">רצח בחברה הערבית: מה אפשר לבדוק באתר</h2>
           <p>
@@ -218,7 +237,7 @@
         </div>
       </section>
 
-      <section class="split-card" aria-labelledby="explore-title">
+      <section class="split-card navigation-card" aria-labelledby="explore-title">
         <div>
           <p class="eyebrow">ניווט מהיר</p>
           <h2 id="explore-title">איפה כדאי להתחיל</h2>
@@ -248,7 +267,7 @@
         </div>
       </section>
 
-      <section class="card-grid" aria-labelledby="faq-title">
+      <section class="card-grid faq-grid" aria-labelledby="faq-title">
         <div class="content-card">
           <h2 id="faq-title">שאלות נפוצות</h2>
           <p>
@@ -274,7 +293,7 @@
         </div>
       </section>
 
-      <section class="card-grid" aria-labelledby="language-title">
+      <section class="card-grid language-grid" aria-labelledby="language-title">
         <div class="content-card">
           <h2 id="language-title">עמודים מקבילים לשפות נוספות</h2>
           <p>

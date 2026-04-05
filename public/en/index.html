@@ -9,7 +9,7 @@
       content="Landing page and interactive tracker of homicide victims in Arab society in Israel, with a locality map, year comparisons, Ramadan analysis, and victim names."
     />
     <meta name="robots" content="index,follow,max-image-preview:large" />
-    <meta name="theme-color" content="#f3eee5" />
+    <meta name="theme-color" content="#f4efe6" />
     <link rel="icon" href="../favicon.ico" sizes="any" />
     <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png" />
@@ -60,7 +60,7 @@
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Sora:wght@400;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="../site.css" />
   </head>
   <body>
@@ -87,17 +87,36 @@
           <p class="eyebrow">2018-2026 | Open dataset</p>
           <h1>Homicide Victim Tracker in Arab Society in Israel</h1>
           <p class="lede">
-            This searchable landing page points to an interactive dashboard that organizes homicide victim records in Arab society in Israel by
-            year, locality, gender, weapon type, and solve status.
+            The interactive dashboard organizes homicide victim records in Arab society in Israel by year, locality, gender, weapon type, and
+            solve status.
           </p>
           <div class="cta-row">
             <a class="button-primary" href="../dashboard/?lang=en">Open dashboard</a>
             <a class="button-secondary" href="../dashboard/?lang=en&view=raw">Victim names</a>
             <a class="button-secondary" href="https://github.com/ekurer/arab-society-murder-tracker">Code and data</a>
           </div>
+          <dl class="briefing-strip" aria-label="Data briefing">
+            <div class="briefing-item">
+              <dt>Coverage</dt>
+              <dd>2018-2026</dd>
+            </div>
+            <div class="briefing-item">
+              <dt>Refresh</dt>
+              <dd>Every 24 hours</dd>
+            </div>
+            <div class="briefing-item">
+              <dt>Map basis</dt>
+              <dd>Locality of residence</dd>
+            </div>
+            <div class="briefing-item">
+              <dt>Formats</dt>
+              <dd>Dashboard, JSON, CSV</dd>
+            </div>
+          </dl>
         </div>
 
         <aside class="side-card">
+          <p class="side-kicker">At a glance</p>
           <h2>What the site includes</h2>
           <ul class="feature-list">
             <li>A map by locality of residence rather than incident point.</li>
@@ -111,7 +130,7 @@
     </header>
 
     <main class="page-shell section-stack">
-      <section class="card-grid">
+      <section class="card-grid briefing-grid">
         <div class="content-card">
           <h2>What searches this page is meant to serve</h2>
           <p>
@@ -137,7 +156,7 @@
         </div>
       </section>
 
-      <section class="split-card">
+      <section class="split-card navigation-card">
         <div>
           <p class="eyebrow">Quick navigation</p>
           <h2>Where to start</h2>
